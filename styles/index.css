@@ -33,8 +33,12 @@ body > * {
     width: 100%;
 }
 
+.main-content{
+}
+
 .movie-list{
-    height: 85vh;
+
+    height: 80vh;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
