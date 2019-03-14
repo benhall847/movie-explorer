@@ -37,3 +37,16 @@ body > * {
     flex-wrap: wrap;
     overflow: auto;
 }
+.poster-frame{
+    width: 33%;
+}
+.poster-image{
+    width: 98%;
+}
+
+
+@media screen and (min-width: 700px) {
+    .poster-frame{
+        width: 25%;
+    }
+}
