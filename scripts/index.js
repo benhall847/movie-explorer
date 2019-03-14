@@ -6,6 +6,11 @@ let trendingList
 
 
 
+function posterClick(event){
+    console.log(event.target.data);
+}
+
+
 function doStuff(obj){
     const aDiv = document.createElement('div');
     const myImg = document.createElement('img');
@@ -13,16 +18,16 @@ function doStuff(obj){
     myImg.setAttribute('src', `${imgURL}${obj.poster_path}`)
     aDiv.setAttribute('style', 'width: 33%')
     myImg.setAttribute('style', 'width: 98%')
+    myImg.data = obj
     aDiv.appendChild(myImg);
+    myImg.addEventListener('click', posterClick)
 };
-
 
 function doLotsStuff(myArray){
     myArray.forEach(eaObj => {
         doStuff(eaObj)
     })
 };
-
 
 
 const ListSpike = fetch("https://api.themoviedb.org/3/trending/all/week?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e")
@@ -33,4 +38,3 @@ const ListSpike = fetch("https://api.themoviedb.org/3/trending/all/week?api_key=
         trendingList = data.results
         doLotsStuff(trendingList);
 });
-
