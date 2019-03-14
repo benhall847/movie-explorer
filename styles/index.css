@@ -38,7 +38,6 @@ body > * {
 }
 
 .movie-list{
-    border: 3px solid red;
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -47,16 +46,37 @@ body > * {
 }
 
 .poster-frame{
-    width: 33%;
+    width: 50%;
 }
 
 .poster-image{
     width: 98%;
 }
 
+@media screen and (min-width: 500px){
+    .poster-frame{
+        width: 33%;
+    }
+}
+
 
 @media screen and (min-width: 700px) {
     .poster-frame{
         width: 25%;
+    }
+}
+
+@media screen and (min-width: 1000px){
+    .poster-frame{
+        width: 20%;
+    }
+}
+
+@media screen and (min-width: 1400px){
+    .poster-frame{
+        width: 14%;
+    }
+    .movie-list{
+        margin-left: 25px;
     }
 }
