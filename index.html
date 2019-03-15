@@ -9,17 +9,32 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="search-input">
-      <div class="search-bar" >
-        <input type="text" placeholder="Search..." data-searchBar/>
-        <ul class="autocomplete-results" data-autocomplete-results></ul>
-      </div>
-      <div class="search-button" data-searchButton></div>
+    <div class="modal" data-modal>
+        <div class="modal-content" data-modalContent>
+            <span class="close" data-modalClose>&times;</span>
+            <div class="modal-frame" data-modalFrame>
+                <div class="video-frame" data-videoFrame>
 
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="search-input">
+        <div class="search-bar" >
+        <input type="text" placeholder="Search..." data-searchBar/>
+        <ul class="autocomplete-results" data-autocomplete-results>
+        </ul>
+        </div>
+
+        <div class="search-button" data-searchButton>
+        </div>
+    </div>
+
     <div class="main-content">
-      <div data-list class="movie-list"></div>
+        <div data-list class="movie-list">
+        </div>
     </div>
+
     <script src="/scripts/index.js"></script>
 </body>
 </html>
