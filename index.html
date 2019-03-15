@@ -20,15 +20,20 @@
                 </div>
             </div>
         </div>
-        <div class="search-input">
+        <!-- <div class="search-input">
             <div class="search-bar">
                 <input type="text" placeholder="Search..." data-searchBar/>
-                <ul class="autocomplete-results" data-autocomplete-results>
-                </ul>
             </div>
             <div class="search-button" data-searchButton>
             </div>
-        </div>
+        </div> -->
+        <form autocomplete="off" onsubmit="return false">
+            <div class="autocomplete">
+                    <input class="searchInput" type="text" placeholder="Search..." data-searchBar/>
+                    <ul class="autocomplete-results" data-autocomplete-results>
+                    </ul>
+            </div>
+        </form>
         <div class="main-content">
             <div data-list class="movie-list">
             </div>

@@ -5,18 +5,22 @@ function main(){
     const modalFrame = document.querySelector("[data-modalFrame]");
     const videoFrame = document.querySelector("[data-videoFrame]");
     const targetInput = document.querySelector("[data-searchBar]");
+    // const targetInput2 = document.querySelector("[data-searchBar2]");
     const modalInfo = document.querySelector("[data-modalContent]");
     const modalExitButton = document.querySelector("[data-modalClose]");
     const results = document.querySelector("[data-autocomplete-results]");
-    
+    const aDiv = document.createElement("div");
     const iframe = document.createElement('iframe');
     iframe.setAttribute('class', 'iframeVideo');
     videoFrame.appendChild(iframe);
-    
+    let currentFocus;
+
     const imgURL = "https://image.tmdb.org/t/p/w200";
     
+    let resultArray = [];
+    let resultObjects = [];
     let trendingList;
-    
+
     targetInput.addEventListener("keyup", search);
     modalExitButton.addEventListener("click", closeModal);
     
@@ -25,14 +29,28 @@ function main(){
     // focus the input
     targetInput.focus();
     
+
     
     // populate autocomplete results, accepts matchList array as an argument
     function displayMatches(matchList) {
+        aDiv.setAttribute("class","autocomplete-items");
         matchList.results.forEach(match => {
-            const liElement = document.createElement("li");
-            liElement.textContent = match.title;
-            results.appendChild(liElement);
+            if (match.adult !== true){
+                if (match['vote_count'] > 0){
+
+                    const bDiv = document.createElement("div");
+                    bDiv.textContent = match.title;
+                    bDiv.data = match;
+                    aDiv.appendChild(bDiv);
+                    resultArray.push(bDiv);
+                    resultObjects.push(match);
+                }
+            }
+            // targetInput.appendChild(aDiv);
+            // results.appendChild(liElement);
         });
+        targetInput.parentNode.appendChild(aDiv);
+        createElements(resultObjects);
     };
 
     function closeModal(){
@@ -83,19 +101,30 @@ function main(){
     };
 
     function search(event) {
-        const searchInput = event.srcElement.value;
-        results.innerHTML = "";
+        if (event.keyCode !== 13){
+            const searchInput = event.srcElement.value;
+            results.innerHTML = "";
+            resultObjects = [];
+            listArea.innerHTML = "";
+            if(resultArray.length > 0){
+                resultArray.forEach((div)=>{
+                    div.remove();
+                });
+            }
             if (searchInput.length > 0) {
-        let matches = fetch(`https://api.themoviedb.org/3/search/movie?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&query=${searchInput}&page=1&include_adult=false`)
-            .then((response) =>{
-                return response.json();
-            })
-            .then((data) => {
-                    if (data.results.length > 0) {
-                        displayMatches(data);
-                    }
+            let matches = fetch(`https://api.themoviedb.org/3/search/movie?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&query=${searchInput}&page=1&include_adult=false`)
+                .then((response) =>{
+                    return response.json();
+                })
+                .then((data) => {
+                        if (data.results.length > 0) {
+                            displayMatches(data);
+                        }
                 })
             }
+        }else{
+            console.log(targetInput.parentNode)
+        }
     };
 
     function start(){
