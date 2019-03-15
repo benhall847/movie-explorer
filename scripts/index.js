@@ -83,7 +83,11 @@ const ListSpike = fetch(
   });
 
 function search(event) {
+  const searchInput = event.srcElement.value;
   results.innerHTML = "";
+  fetch(
+    `https://api.themoviedb.org/3/search/movie?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&query=${searchInput}&page=1&include_adult=false`
+  );
   if (event.srcElement.value.length > 0) {
     matches = getMatches(event.srcElement.value);
     if (matches.length > 0) {
