@@ -7,12 +7,11 @@
     box-sizing: inherit;
     }
 
-    html,
-    body {
-    height: 100%;
-    width: 100%;
-    border: 5px solid blue;
-    }
+html, body {
+    height:100%;
+    width:100%;
+    border:  5px solid blue;
+}
 
     body {
     display: flex;
@@ -34,36 +33,113 @@
     display: block;
     }
 
-    .result {
-    display: block;
-    }
-
-    .search-input {
-    height: 15vh;
+.search-input{
+    height: 40px;
     width: 100%;
-    }
+}
 
-    .main-content {
-    }
+.main-content{
+    height: calc(100% - 40px);
+}
 
-    .movie-list {
-    height: 80vh;
+.movie-list{
+    height: 100%;
+
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     overflow: scroll;
     }
 
-    .poster-frame {
-    width: 33%;
-    }
+
+.poster-frame{
+    width: 50%;
+}
+
 
     .poster-image {
     width: 98%;
+
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    width:100%;
+    height: calc(100% - 20px);
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content{
+    background-color: #fefefe;
+    margin: 1%;
+    padding:10px;
+    border: 3px solid #888;
+    width: 95%;
+    height: 90%;
+}
+
+.modal-frame{
+    height: 100%;
+    width: 100%;
+    display:flex;
+    justify-content: center;
+}
+
+.close{
+    display: block;
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.video-frame{
+    position: relative;
+    width: 90%;
+    height: 0;
+    padding-bottom: 50%;
+}
+
+.iframeVideo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+@media screen and (min-width: 500px){
+    .poster-frame{
+        width: 33%;
     }
+}
+
 
     @media screen and (min-width: 700px) {
     .poster-frame {
         width: 25%;
     }
+}
+
+@media screen and (min-width: 1000px){
+    .poster-frame{
+        width: 20%;
     }
+}
+
+@media screen and (min-width: 1400px){
+    .poster-frame{
+        width: 11%;
+    }
+}
+
