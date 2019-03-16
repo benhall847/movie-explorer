@@ -9,6 +9,7 @@ function main() {
     const modalInfo = document.querySelector("[data-modalContent]");
     const modalExitButton = document.querySelector("[data-modalClose]");
     const results = document.querySelector("[data-autocomplete-results]");
+    const matchesList = document.querySelector("[data-autocomplete-items]");
     const aDiv = document.createElement("div");
     const iframe = document.createElement('iframe');
     iframe.setAttribute('class', 'iframeVideo');
@@ -34,10 +35,10 @@ function main() {
     // populate autocomplete results, accepts matchList array as an argument
     function displayMatches(matchList) {
         aDiv.setAttribute("class", "autocomplete-items");
+        aDiv.setAttribute("data-autocomplete-items", "data-autocomplete-items");
         matchList.results.forEach(match => {
             if (match.adult !== true) {
                 if (match['vote_count'] > 0) {
-
                     const bDiv = document.createElement("div");
                     bDiv.textContent = match.title;
                     bDiv.data = match;
@@ -90,6 +91,17 @@ function main() {
         });
     };
 
+    function toggleAutocompleteMatches() {
+        const matchesList2 = document.querySelector("[data-autocomplete-items]")
+        // console.log(matchesList2)
+        if (matchesList2.style.display === 'none') {
+            matchesList2.style.display = "block";
+        } else {
+            matchesList2.style.display = 'none';
+
+        }
+    }
+
     function sortPopularity(a, b) {
         if (a.popularity > b.popularity) {
             return -1;
@@ -122,9 +134,15 @@ function main() {
                         }
                     })
             }
-        } else {
-            console.log(targetInput.parentNode)
+        } else if (event.keyCode == 13) {
+            console.log(event)
+            console.log(displayMatches)
+            console.log(matchesList)
+            toggleAutocompleteMatches();
+            //matchesList = 
+
         }
+        else console.log(targetInput.parentNode)
     };
 
     function start() {
@@ -139,6 +157,7 @@ function main() {
                 trendingList = trendingList.filter(movie => movie.title) // filters out TV shows
                 trendingList.sort(sortPopularity);
                 createElements(trendingList);
+                console.log(trendingList)
             });
     }
     start();
