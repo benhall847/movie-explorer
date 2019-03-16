@@ -15,6 +15,7 @@ function main() {
     iframe.setAttribute('class', 'iframeVideo');
     videoFrame.appendChild(iframe);
     let currentFocus;
+    let resultCursor = 0;
 
     const imgURL = "https://image.tmdb.org/t/p/w200";
 
@@ -34,6 +35,7 @@ function main() {
 
     // populate autocomplete results, accepts matchList array as an argument
     function displayMatches(matchList) {
+        console.log(matchList)
         aDiv.setAttribute("class", "autocomplete-items");
         aDiv.setAttribute("data-autocomplete-items", "data-autocomplete-items");
         matchList.results.forEach(match => {
@@ -50,9 +52,32 @@ function main() {
             // targetInput.appendChild(aDiv);
             // results.appendChild(liElement);
         });
+        console.log(matchList.results[0])
+
         targetInput.parentNode.appendChild(aDiv);
         createElements(resultObjects);
+
+        moveCursor(resultCursor);
     };
+
+    // moves cursor in the results list
+    function moveCursor(pos) {
+        console.log(pos) // pos = 0
+        const matchesList3 = document.querySelector("[data-autocomplete-items]")
+        // matchesList3[0].setAttribute("class", "highlighted")
+        // console.log(matchList)
+        // console.log(matchesList)
+        console.log(matchesList3)
+        console.log(matchesList3.firstChild)
+        const firstHighlightedDiv = matchesList3.firstChild.classList.add("highlighted");
+        console.log(firstHighlightedDiv)
+
+        // matchesList3.firstChild.classList.remove("highlighted");
+        // matchesList3.firstChild.classList.add("highlighted");
+
+
+
+    }
 
     function closeModal() {
         modal.style.display = "none";
@@ -134,34 +159,40 @@ function main() {
                         }
                     })
             }
-        } else if (event.keyCode == 13) {
-            console.log(event)
-            console.log(displayMatches)
-            console.log(matchesList)
+        } else if (event.keyCode == 13) { // enter
             toggleAutocompleteMatches();
-            //matchesList = 
+        // stopped here, not working yet    
+        // } else if (event.keyCode == 38) { // arrow up
+        //     if (resultCursor > 0) {
+        //         resultCursor--;
+        //         moveCursor(resultCursor);
+        //     }
+        // } else if (event.keyCode == 40) { // arrow down
+        //     // if (resultCursor < )
+        //     console.log(data)
+        // }
 
-        }
+
         else console.log(targetInput.parentNode)
+        };
+
+        function start() {
+            const ListSpike = fetch(
+                "https://api.themoviedb.org/3/trending/all/week?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e"
+            )
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    trendingList = data.results; // [{}]
+                    trendingList = trendingList.filter(movie => movie.title) // filters out TV shows
+                    trendingList.sort(sortPopularity);
+                    createElements(trendingList);
+                    console.log(trendingList)
+                });
+        }
+        start();
+
     };
 
-    function start() {
-        const ListSpike = fetch(
-            "https://api.themoviedb.org/3/trending/all/week?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e"
-        )
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                trendingList = data.results; // [{}]
-                trendingList = trendingList.filter(movie => movie.title) // filters out TV shows
-                trendingList.sort(sortPopularity);
-                createElements(trendingList);
-                console.log(trendingList)
-            });
-    }
-    start();
-
-};
-
-main();
+    main();
