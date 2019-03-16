@@ -1,5 +1,5 @@
 
-function main(){
+function main() {
     const listArea = document.querySelector("[data-list]");
     const modal = document.querySelector("[data-modal]");
     const modalFrame = document.querySelector("[data-modalFrame]");
@@ -16,27 +16,27 @@ function main(){
     let currentFocus;
 
     const imgURL = "https://image.tmdb.org/t/p/w200";
-    
+
     let resultArray = [];
     let resultObjects = [];
     let trendingList;
 
     targetInput.addEventListener("keyup", search);
     modalExitButton.addEventListener("click", closeModal);
-    
+
     let matches = [];
-    
+
     // focus the input
     targetInput.focus();
-    
 
-    
+
+
     // populate autocomplete results, accepts matchList array as an argument
     function displayMatches(matchList) {
-        aDiv.setAttribute("class","autocomplete-items");
+        aDiv.setAttribute("class", "autocomplete-items");
         matchList.results.forEach(match => {
-            if (match.adult !== true){
-                if (match['vote_count'] > 0){
+            if (match.adult !== true) {
+                if (match['vote_count'] > 0) {
 
                     const bDiv = document.createElement("div");
                     bDiv.textContent = match.title;
@@ -53,7 +53,7 @@ function main(){
         createElements(resultObjects);
     };
 
-    function closeModal(){
+    function closeModal() {
         modal.style.display = "none";
         iframe.src = ``;
     };
@@ -74,14 +74,14 @@ function main(){
         myImg.data = obj;
         aDiv.appendChild(myImg);
         myImg.addEventListener("click", posterClick);
-    
+
         fetch(`https://api.themoviedb.org/3/movie/${obj.id}/videos?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US`)
-            .then((response) =>{
+            .then((response) => {
                 return response.json()
             })
             .then((data) => {
                 myImg.video = data;
-            });    
+            });
     };
 
     function createElements(myArray) {
@@ -101,41 +101,42 @@ function main(){
     };
 
     function search(event) {
-        if (event.keyCode !== 13){
+        if (event.keyCode !== 13) {
             const searchInput = event.srcElement.value;
             results.innerHTML = "";
             resultObjects = [];
             listArea.innerHTML = "";
-            if(resultArray.length > 0){
-                resultArray.forEach((div)=>{
+            if (resultArray.length > 0) {
+                resultArray.forEach((div) => {
                     div.remove();
                 });
             }
             if (searchInput.length > 0) {
-            let matches = fetch(`https://api.themoviedb.org/3/search/movie?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&query=${searchInput}&page=1&include_adult=false`)
-                .then((response) =>{
-                    return response.json();
-                })
-                .then((data) => {
+                let matches = fetch(`https://api.themoviedb.org/3/search/movie?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&query=${searchInput}&page=1&include_adult=false`)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
                         if (data.results.length > 0) {
                             displayMatches(data);
                         }
-                })
+                    })
             }
-        }else{
+        } else {
             console.log(targetInput.parentNode)
         }
     };
 
-    function start(){
+    function start() {
         const ListSpike = fetch(
             "https://api.themoviedb.org/3/trending/all/week?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e"
-            )
+        )
             .then(response => {
                 return response.json();
             })
             .then(data => {
-                trendingList = data.results;
+                trendingList = data.results; // [{}]
+                trendingList = trendingList.filter(movie => movie.title) // filters out TV shows
                 trendingList.sort(sortPopularity);
                 createElements(trendingList);
             });
