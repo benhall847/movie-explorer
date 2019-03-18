@@ -29,7 +29,7 @@ function main() {
 
         { "Upcoming": "https://api.themoviedb.org/3/movie/upcoming?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1" },
 
-        { "Popularity": "https://api.themoviedb.org/3/movie/popular?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1" },
+        { "Most Popular": "https://api.themoviedb.org/3/movie/popular?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1" },
 
         { "Top Rated": "https://api.themoviedb.org/3/movie/top_rated?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1" }
     ]
@@ -179,7 +179,7 @@ function main() {
     listArea.onscroll = function() {
 
         // infinte scrolling black magic
-        if (listArea.scrollTop > ((listArea.scrollHeight - 100) - listArea.offsetHeight)){
+        if (listArea.scrollTop > ((listArea.scrollHeight - 120) - listArea.offsetHeight)){
             page++;
             addPage(page);
             
@@ -416,8 +416,6 @@ function main() {
                 createElements(trendingList);
             });
     };
-    // start(filterChoice);
-
 };
 
 main();
