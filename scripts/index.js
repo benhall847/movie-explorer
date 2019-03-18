@@ -10,8 +10,10 @@ function main() {
     const modalExitButton = document.querySelector("[data-modalClose]");
     const results = document.querySelector("[data-autocomplete-results]");
     const matchesList = document.querySelector("[data-autocomplete-items]");
+    
     const aDiv = document.createElement("div");
     const iframe = document.createElement('iframe');
+
     iframe.setAttribute('class', 'iframeVideo');
     videoFrame.appendChild(iframe);
     let currentFocus;
@@ -22,7 +24,8 @@ function main() {
     let resultArray = [];
     let resultObjects = [];
     let trendingList;
-
+    
+    targetInput.addEventListener("focusout", closeSearch);
     targetInput.addEventListener("keyup", search);
     modalExitButton.addEventListener("click", closeModal);
 
@@ -32,12 +35,19 @@ function main() {
     targetInput.focus();
 
 
-
+    // SEARCH BAR SUGGESTED RESULTS
+    // displayMatches - the search bar suggestions.
     // populate autocomplete results, accepts matchList array as an argument
     function displayMatches(matchList) {
         console.log(matchList)
+        // setting a class attribute for CSS styling our auto-results div
         aDiv.setAttribute("class", "autocomplete-items");
         aDiv.setAttribute("data-autocomplete-items", "data-autocomplete-items");
+        
+        // we are checking to see if its an adult movie or
+        // if the vote_count is 0
+        // this just filters out some unwanted movies
+        // then we display each movie title to the search-bar suggestions.
         matchList.results.forEach(match => {
             if (match.adult !== true) {
                 if (match['vote_count'] > 0) {
@@ -77,30 +87,67 @@ function main() {
 
 
 
-    }
+    };
 
+
+
+    // SEARCH BAR FOCUS OUT
+    // If the user focuses outside of the search-bar
+    // delete the search-suggestions.
+    function closeSearch(){
+        resultArray.forEach((div) => {
+            div.remove();
+        });
+    };
+
+
+
+    // EXIT MODAL
+    // when the exit button gets clicked, we hide the modal.
     function closeModal() {
         modal.style.display = "none";
         iframe.src = ``;
     };
 
+
+    // POSTER CLICK
+    // if you click on a poster, we show the modal while changing the trailer.
     function posterClick(event) {
         let youtubeURL = event.target.video.results[0].key;
         modal.style.display = "block";
         iframe.src = `https://www.youtube.com/embed/${youtubeURL}`;
     };
 
+
+    // POSTER IMAGE CREATOR
+    // createIMGelement creates a single poster image from a movie object.
     function createIMGelement(obj) {
+
+        // each image is inside its own div, for styling as a 'poster-frame'.
+        // each poster-frame div is inside a single div 'listArea'.
         const aDiv = document.createElement("div");
         const myImg = document.createElement("img");
+        aDiv.appendChild(myImg);
         listArea.appendChild(aDiv);
+
+        // we set some attributes for styling in CSS
+        // and the src image of each poster from the movie object.
         myImg.setAttribute("src", `${imgURL}${obj.poster_path}`);
         aDiv.setAttribute("class", "poster-frame");
         myImg.setAttribute("class", "poster-image");
+
+        // we give each image a '.data' attribute with a value of its own movie object.
+        // this allows us to hide that data, and 
+        // refrence it later when its clicked with - event.target.data
         myImg.data = obj;
-        aDiv.appendChild(myImg);
+
+        // we make each image clickable.
         myImg.addEventListener("click", posterClick);
 
+        // for each image we fetch the youtube trailer video data
+        // then we give each image a '.video' attribute with a value of its youtube trailer data.
+        // this allows us to hide that data, and
+        // refrence it later when its clicked with - event.target.video
         fetch(`https://api.themoviedb.org/3/movie/${obj.id}/videos?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US`)
             .then((response) => {
                 return response.json()
@@ -110,11 +157,15 @@ function main() {
             });
     };
 
+
+    // FOR ONE FOR MANY
+    // this takes a list of movie objects, and feeds them to createIMGelement.
     function createElements(myArray) {
         myArray.forEach(movieObj => {
             createIMGelement(movieObj);
         });
     };
+
 
     function toggleAutocompleteMatches() {
         const matchesList2 = document.querySelector("[data-autocomplete-items]")
@@ -127,6 +178,12 @@ function main() {
         }
     }
 
+
+        // MOVIE LIST SORT
+    // this is for sorting a list of movie objects, by popularity.
+    // this function is for using '.sort()' ie '.sort(sortPopularity)'
+    // console.log a movie object or check the TMDB website
+    // to see what '.popularity' is
     function sortPopularity(a, b) {
         if (a.popularity > b.popularity) {
             return -1;
@@ -137,17 +194,34 @@ function main() {
         return 0;
     };
 
+
+    // SEARCH BAR EVENT
+    // our targetInput (the search bar) has a event listener for any key-up.
+    // this is what we want to do everytime a key is pressed in our targetInput
     function search(event) {
+
+        // key-code 13 is 'ENTER'
+        // if it is NOT 13 -
         if (event.keyCode !== 13) {
+
+            // we take the value of the search bar as our 'searchInput'
             const searchInput = event.srcElement.value;
+            
+            // we clear/delete our previously displayed movies and results.
             results.innerHTML = "";
             resultObjects = [];
             listArea.innerHTML = "";
+
+            // this will delete all of our search-bar suggestions,
+            // so we can repopulate the search-bar suggestions with
+            // the new 'searchInput'
             if (resultArray.length > 0) {
                 resultArray.forEach((div) => {
                     div.remove();
                 });
             }
+
+
             if (searchInput.length > 0) {
                 let matches = fetch(`https://api.themoviedb.org/3/search/movie?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&query=${searchInput}&page=1&include_adult=false`)
                     .then((response) => {
@@ -160,7 +234,8 @@ function main() {
                     })
             }
         } else if (event.keyCode == 13) { // enter
-            toggleAutocompleteMatches();
+            event.srcElement.value = '';
+            // toggleAutocompleteMatches();
         // stopped here, not working yet    
         // } else if (event.keyCode == 38) { // arrow up
         //     if (resultCursor > 0) {
@@ -171,9 +246,12 @@ function main() {
         //     // if (resultCursor < )
         //     console.log(data)
         // }
-
-
-        else console.log(targetInput.parentNode)
+        }
+        if (event.srcElement.value.length <= 0) {
+            resultArray.forEach((div) => {
+                div.remove();
+            });
+        }
         };
 
         function start() {
