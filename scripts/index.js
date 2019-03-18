@@ -16,7 +16,7 @@ function main() {
     const results = document.querySelector("[data-autocomplete-results]");
     const matchesList = document.querySelector("[data-autocomplete-items]");
     const filterButton = document.querySelector("[data-filter]");
-    const iframe = document.createElement('iframe');
+    const iframe = document.querySelector('[data-iframe]');
     iframe.setAttribute('class', 'iframeVideo');
     videoFrame.appendChild(iframe);
 
