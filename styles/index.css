@@ -54,9 +54,6 @@ body > * {
     overflow: scroll;
 }
 
-.highlighted{
-    background-color: purple;
-}
 
 .poster-frame{
     width: 50%;
