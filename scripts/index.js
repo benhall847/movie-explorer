@@ -1,7 +1,10 @@
 
 function main() {
     const listArea = document.querySelector("[data-list]");
+    const dropCategory = document.querySelectorAll("[data-category-button]")
     const modal = document.querySelector("[data-modal]");
+    const dropdown = document.querySelector("[data-dropbutton]")
+    const myDropdown = document.querySelector("[data-mydropdown]")
     const settingModal = document.querySelector("[data-settingModal]");
     const settingExitButton = document.querySelector("[data-settingModalClose]");
     const modalFrame = document.querySelector("[data-modalFrame]");
@@ -31,6 +34,11 @@ function main() {
     filterButton.addEventListener("click", openFilterModal);
     targetInput.addEventListener("focusout", closeSearch);
     targetInput.addEventListener("keyup", search);
+    dropdown.addEventListener("click", dropdownToggle)
+    console.log(dropCategory);
+    dropCategory.forEach((eaDiv) => {
+        eaDiv.addEventListener("click", dropdownClick);
+    })
     
     let matches = [];
     
@@ -38,6 +46,18 @@ function main() {
     targetInput.focus();
     let myfocus = true;
     
+
+    function dropdownClick(event) {
+        dropdownToggle();
+        dropdown.textContent = event.target.textContent;
+
+    }
+
+    function dropdownToggle() {
+        // document.getElementById("myDropdown").classList.toggle("show");
+        myDropdown.classList.toggle("show");
+}
+
     
     // SEARCH BAR SUGGESTED RESULTS
     // displayMatches - the search bar suggestions.
