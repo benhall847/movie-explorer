@@ -23,11 +23,43 @@ function main() {
     let currentFocus;
     let resultCursor = 0;
     
+
+    const filterArray = [
+        {"In Theaters":"https://api.themoviedb.org/3/movie/now_playing?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1"},
+
+        {"Upcoming":"https://api.themoviedb.org/3/movie/upcoming?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1"},
+
+        {"Popularity":"https://api.themoviedb.org/3/movie/popular?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1"},
+
+        {"Top Rated":"https://api.themoviedb.org/3/movie/top_rated?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1"}
+    ]
+
+    let filterChoice = filterArray[0]["In Theaters"];
+
+
+    // let nowPlayingURL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1";
+    // nowPlayingURL.data = "In Theaters";
+
+    // let upcomingURL = "https://api.themoviedb.org/3/movie/upcoming?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1";
+    // upcomingURL.data = "Upcoming";
+
+    // let popularityURL = "https://api.themoviedb.org/3/movie/popular?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1";
+    // popularityURL.data = "Popularity";
+
+    // let topRatedURL = "https://api.themoviedb.org/3/movie/top_rated?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1";
+    // topRatedURL.data = "Top Rated";
+
+    // const filterArray = [nowPlayingURL, upcomingURL, popularityURL, topRatedURL];
+
+
+
     const imgURL = "https://image.tmdb.org/t/p/w200";
     
     let resultArray = [];
     let resultObjects = [];
     let trendingList;
+
+
 
     settingExitButton.addEventListener("click", closeSetting);
     modalExitButton.addEventListener("click", closeModal);
@@ -92,8 +124,8 @@ function main() {
                     .then((data) => {
                         bDiv.video = data;
                     });
-                }
-            }
+                };
+                };
             // targetInput.appendChild(aDiv);
             // results.appendChild(liElement);
         });
@@ -176,6 +208,12 @@ function main() {
 
     function closeSetting(){
         settingModal.style.display = "none";
+        filterArray.forEach((obj) => {
+            if (Object.keys(obj)[0] === dropdown.textContent){
+                filterChoice = obj[Object.keys(obj)[0]];
+            }
+        })
+        start(filterChoice);
     };
 
 
@@ -321,24 +359,25 @@ function main() {
                 div.remove();
             });
         }
-        };
+    };
 
-        function start() {
-            const ListSpike = fetch(
-                "https://api.themoviedb.org/3/trending/all/week?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e"
-            )
-                .then(response => {
-                    return response.json();
-                })
-                .then(data => {
-                    trendingList = data.results; // [{}]
-                    trendingList = trendingList.filter(movie => movie.title) // filters out TV shows
-                    trendingList.sort(sortPopularity);
-                    createElements(trendingList);
-                    console.log(trendingList)
-                });
-        }
-        start();
+    function start(choice) {
+        results.innerHTML = "";
+        resultObjects = [];
+        listArea.innerHTML = "";
+        trendingList = [];
+        fetch(choice)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                trendingList = data.results; // [{}]
+                trendingList = trendingList.filter(movie => movie.title) // filters out TV shows
+                // trendingList.sort(sortPopularity);
+                createElements(trendingList);
+            });
+    };
+    start(filterChoice);
 
     };
 
