@@ -37,22 +37,6 @@ function main() {
     let filterChoice = filterArray[0]["In Theaters"];
 
 
-    // let nowPlayingURL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1";
-    // nowPlayingURL.data = "In Theaters";
-
-    // let upcomingURL = "https://api.themoviedb.org/3/movie/upcoming?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1";
-    // upcomingURL.data = "Upcoming";
-
-    // let popularityURL = "https://api.themoviedb.org/3/movie/popular?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1";
-    // popularityURL.data = "Popularity";
-
-    // let topRatedURL = "https://api.themoviedb.org/3/movie/top_rated?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1";
-    // topRatedURL.data = "Top Rated";
-
-    // const filterArray = [nowPlayingURL, upcomingURL, popularityURL, topRatedURL];
-
-
-
     const imgURL = "https://image.tmdb.org/t/p/w200";
 
     let resultArray = [];
@@ -76,6 +60,7 @@ function main() {
     // focus the input
     targetInput.focus();
     let myfocus = true;
+
 
 
     function dropdownClick(event) {
@@ -176,10 +161,30 @@ function main() {
     //     // matchesList3.firstChild.classList.remove("highlighted");
     //     // matchesList3.firstChild.classList.add("highlighted");
 
+    
 
 
-    // };
 
+
+    function addPage(page){
+        const clickedGenres = getClickedGenres()
+        const myString = createQueryURL(clickedGenres)
+        start(myString.substring(0,myString.length -1) + page)
+    }
+
+    let page = 1;
+    addPage(page);
+
+
+    listArea.onscroll = function() {
+
+        // infinte scrolling black magic
+        if (listArea.scrollTop > ((listArea.scrollHeight - 100) - listArea.offsetHeight)){
+            page++;
+            addPage(page);
+            
+        }
+    }
 
 
     // SEARCH BAR FOCUS OUT
@@ -214,13 +219,16 @@ function main() {
         })
         const clickedGenres = getClickedGenres()
         // createQueryURL(clickedGenres)
-        console.log(filterChoice)
 
-
+    results.innerHTML = "";
+    resultObjects = [];
+    listArea.innerHTML = "";
+    trendingList = [];
+    page = 1;
         // send filterChoice + clicked genres
 
 
-        console.log((createQueryURL(clickedGenres)));
+    addPage(page);
     };
 
 
@@ -241,15 +249,11 @@ function main() {
     function getClickedGenres() {
         const clickedGenres = []; // array of clicked genres
         const genreList = document.getElementsByName("genre");
-        console.log("inside getClickedGenres")
         genreList.forEach((genre) => {
-            console.log(genre.checked) // boolean
-            console.log(genre.value) // genre id
             if (genre.checked) {
                 clickedGenres.push(genre.value)
             }
         })
-        console.log(clickedGenres)
         return clickedGenres
     }
 
@@ -356,7 +360,8 @@ function main() {
             results.innerHTML = "";
             resultObjects = [];
             listArea.innerHTML = "";
-
+            trendingList = [];
+            page = 1;
             // this will delete all of our search-bar suggestions,
             // so we can repopulate the search-bar suggestions with
             // the new 'searchInput'
@@ -400,22 +405,18 @@ function main() {
     };
 
     function start(choice) {
-        results.innerHTML = "";
-        resultObjects = [];
-        listArea.innerHTML = "";
-        trendingList = [];
         fetch(choice)
             .then(response => {
                 return response.json();
             })
             .then(data => {
-                trendingList = data.results; // [{}]
-                trendingList = trendingList.filter(movie => movie.title) // filters out TV shows
-                // trendingList.sort(sortPopularity);
+                console.log(data)
+                trendingList = data.results
+                trendingList = trendingList.filter(movie => movie.title) 
                 createElements(trendingList);
             });
     };
-    start(filterChoice);
+    // start(filterChoice);
 
 };
 
