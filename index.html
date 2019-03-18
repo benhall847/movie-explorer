@@ -11,6 +11,15 @@
 </head>
 
 <body>
+    <div class="settings-modal" data-settingModal>
+        <div class="settings-modal-content" data-settingsModalContent>
+
+            <span class="close" data-settingModalClose>&times;
+            </span>
+            <div class="settings-modal-frame" data-settingsModalFrame>
+            </div>
+        </div>
+    </div>
     <div class="modal" data-modal>
         <div class="modal-content" data-modalContent>
             <span class="close" data-modalClose>&times;
@@ -21,13 +30,18 @@
             </div>
         </div>
     </div>
-    <form autocomplete="off" onsubmit="return false">
-        <div class="autocomplete">
-            <input class="searchInput" type="text" placeholder="Search..." data-searchBar />
-            <ul class="autocomplete-results" data-autocomplete-results>
-            </ul>
+    <div class="search-bar">
+        <div class="filter" data-filter>
+            Filter
         </div>
-    </form>
+        <form autocomplete="off" onsubmit="return false" class="formSearchInput">
+            <div class="autocomplete">
+                <input class="searchInput" type="text" placeholder="Search..." data-searchBar />
+                <ul class="autocomplete-results" data-autocomplete-results>
+                </ul>
+            </div>
+        </form>
+    </div>
     <div class="main-content">
         <div data-list class="movie-list">
         </div>

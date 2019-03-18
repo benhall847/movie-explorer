@@ -2,6 +2,8 @@
 function main() {
     const listArea = document.querySelector("[data-list]");
     const modal = document.querySelector("[data-modal]");
+    const settingModal = document.querySelector("[data-settingModal]");
+    const settingExitButton = document.querySelector("[data-settingModalClose]");
     const modalFrame = document.querySelector("[data-modalFrame]");
     const videoFrame = document.querySelector("[data-videoFrame]");
     const targetInput = document.querySelector("[data-searchBar]");
@@ -10,7 +12,7 @@ function main() {
     const modalExitButton = document.querySelector("[data-modalClose]");
     const results = document.querySelector("[data-autocomplete-results]");
     const matchesList = document.querySelector("[data-autocomplete-items]");
-    
+    const filterButton = document.querySelector("[data-filter]");
     const iframe = document.createElement('iframe');
     iframe.setAttribute('class', 'iframeVideo');
     videoFrame.appendChild(iframe);
@@ -23,7 +25,10 @@ function main() {
     let resultArray = [];
     let resultObjects = [];
     let trendingList;
-    
+
+    settingExitButton.addEventListener("click", closeSetting);
+    modalExitButton.addEventListener("click", closeModal);
+    filterButton.addEventListener("click", openFilterModal);
     targetInput.addEventListener("focusout", closeSearch);
     targetInput.addEventListener("keyup", search);
     
@@ -79,6 +84,19 @@ function main() {
         // moveCursor(resultCursor);
     };
     
+
+    // FILTER MODAL CLICK
+    // 
+    function openFilterModal(){
+        settingModal.style.display = "block";
+        
+    }
+
+
+
+
+
+
     // SEARCH SUGGESTION CLICK
     // when a result in the search suggestions gets clicked -
     function searchResultClick(event){
@@ -92,7 +110,6 @@ function main() {
         
     }
     
-    modalExitButton.addEventListener("click", closeModal);
     // moves cursor in the results list
     // function moveCursor(pos) {
         //     console.log(pos) // pos = 0
@@ -135,6 +152,10 @@ function main() {
         // we delete the iframe '.src' to prevent the next modal from showing
         // the previous video.
         iframe.src = ``;
+    };
+
+    function closeSetting(){
+        settingModal.style.display = "none";
     };
 
 
