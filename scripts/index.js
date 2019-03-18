@@ -19,19 +19,19 @@ function main() {
     const iframe = document.createElement('iframe');
     iframe.setAttribute('class', 'iframeVideo');
     videoFrame.appendChild(iframe);
-    
+
     let currentFocus;
     let resultCursor = 0;
-    
+
 
     const filterArray = [
-        {"In Theaters":"https://api.themoviedb.org/3/movie/now_playing?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1"},
+        { "In Theaters": "https://api.themoviedb.org/3/movie/now_playing?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1" },
 
-        {"Upcoming":"https://api.themoviedb.org/3/movie/upcoming?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1"},
+        { "Upcoming": "https://api.themoviedb.org/3/movie/upcoming?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1" },
 
-        {"Popularity":"https://api.themoviedb.org/3/movie/popular?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1"},
+        { "Popularity": "https://api.themoviedb.org/3/movie/popular?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1" },
 
-        {"Top Rated":"https://api.themoviedb.org/3/movie/top_rated?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1"}
+        { "Top Rated": "https://api.themoviedb.org/3/movie/top_rated?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=1" }
     ]
 
     let filterChoice = filterArray[0]["In Theaters"];
@@ -54,7 +54,7 @@ function main() {
 
 
     const imgURL = "https://image.tmdb.org/t/p/w200";
-    
+
     let resultArray = [];
     let resultObjects = [];
     let trendingList;
@@ -67,17 +67,16 @@ function main() {
     targetInput.addEventListener("focusout", closeSearch);
     targetInput.addEventListener("keyup", search);
     dropdown.addEventListener("click", dropdownToggle)
-    console.log(dropCategory);
     dropCategory.forEach((eaDiv) => {
         eaDiv.addEventListener("click", dropdownClick);
     })
-    
+
     let matches = [];
-    
+
     // focus the input
     targetInput.focus();
     let myfocus = true;
-    
+
 
     function dropdownClick(event) {
         dropdownToggle();
@@ -88,20 +87,20 @@ function main() {
     function dropdownToggle() {
         // document.getElementById("myDropdown").classList.toggle("show");
         myDropdown.classList.toggle("show");
-}
+    }
 
-    
+
     // SEARCH BAR SUGGESTED RESULTS
     // displayMatches - the search bar suggestions.
     // populate autocomplete results, accepts matchList array as an argument
     function displayMatches(matchList) {
-        
+
         // we create a sigle div, that will hold a div for each suggested result
         const aDiv = document.createElement("div");
         // setting a class attribute for CSS styling our auto-results div
         aDiv.setAttribute("class", "autocomplete-items");
         aDiv.setAttribute("data-autocomplete-items", "data-autocomplete-items");
-        
+
         // we are checking to see if its an adult movie or
         // if the vote_count is 0
         // this just filters out some unwanted movies
@@ -118,30 +117,30 @@ function main() {
                     resultArray.push(bDiv);
                     resultObjects.push(match);
                     fetch(`https://api.themoviedb.org/3/movie/${match.id}/videos?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US`)
-                    .then((response) => {
-                        return response.json()
-                    })
-                    .then((data) => {
-                        bDiv.video = data;
-                    });
+                        .then((response) => {
+                            return response.json()
+                        })
+                        .then((data) => {
+                            bDiv.video = data;
+                        });
                 };
-                };
+            };
             // targetInput.appendChild(aDiv);
             // results.appendChild(liElement);
         });
-        
+
         targetInput.parentNode.appendChild(aDiv);
         createElements(resultObjects);
-        
+
         // moveCursor(resultCursor);
     };
-    
+
 
     // FILTER MODAL CLICK
     // 
-    function openFilterModal(){
+    function openFilterModal() {
         settingModal.style.display = "block";
-        
+
     }
 
 
@@ -151,7 +150,7 @@ function main() {
 
     // SEARCH SUGGESTION CLICK
     // when a result in the search suggestions gets clicked -
-    function searchResultClick(event){
+    function searchResultClick(event) {
         // first we delete all the suggested searches
         resultArray.forEach((div) => {
             div.remove();
@@ -159,16 +158,16 @@ function main() {
         // then we pass the event to the posterClick function
         // which will open our modal.
         posterClick(event);
-        
+
     }
-    
+
     // moves cursor in the results list
     // function moveCursor(pos) {
-        //     console.log(pos) // pos = 0
-        //     const matchesList3 = document.querySelector("[data-autocomplete-items]")
-        //     // matchesList3[0].setAttribute("class", "highlighted")
-        //     // console.log(matchList)
-        //     // console.log(matchesList)
+    //     console.log(pos) // pos = 0
+    //     const matchesList3 = document.querySelector("[data-autocomplete-items]")
+    //     // matchesList3[0].setAttribute("class", "highlighted")
+    //     // console.log(matchList)
+    //     // console.log(matchesList)
     //     console.log(matchesList3)
     //     console.log(matchesList3.firstChild)
     //     const firstHighlightedDiv = matchesList3.firstChild.classList.add("highlighted");
@@ -186,8 +185,8 @@ function main() {
     // SEARCH BAR FOCUS OUT
     // If the user focuses outside of the search-bar
     // delete the search-suggestions.
-    function closeSearch(){
-        function deleteAll(){
+    function closeSearch() {
+        function deleteAll() {
             resultArray.forEach((div) => {
                 div.remove();
             });
@@ -206,15 +205,54 @@ function main() {
         iframe.src = ``;
     };
 
-    function closeSetting(){
+    function closeSetting() {
         settingModal.style.display = "none";
         filterArray.forEach((obj) => {
-            if (Object.keys(obj)[0] === dropdown.textContent){
+            if (Object.keys(obj)[0] === dropdown.textContent) {
                 filterChoice = obj[Object.keys(obj)[0]];
             }
         })
-        start(filterChoice);
+        const clickedGenres = getClickedGenres()
+        // createQueryURL(clickedGenres)
+        console.log(filterChoice)
+
+
+        // send filterChoice + clicked genres
+
+
+        console.log((createQueryURL(clickedGenres)));
     };
+
+
+    function createQueryURL(genreIDArray) {
+        let result = ""
+
+        if (genreIDArray.length > 0) {
+            result = '&with_genres='
+        }
+
+        genreIDArray.forEach(genre => {
+            result += genre + ','
+        })
+        return filterChoice + result
+
+    }
+
+    function getClickedGenres() {
+        const clickedGenres = []; // array of clicked genres
+        const genreList = document.getElementsByName("genre");
+        console.log("inside getClickedGenres")
+        genreList.forEach((genre) => {
+            console.log(genre.checked) // boolean
+            console.log(genre.value) // genre id
+            if (genre.checked) {
+                clickedGenres.push(genre.value)
+            }
+        })
+        console.log(clickedGenres)
+        return clickedGenres
+    }
+
 
 
     // POSTER CLICK
@@ -286,7 +324,7 @@ function main() {
     }
 
 
-        // MOVIE LIST SORT
+    // MOVIE LIST SORT
     // this is for sorting a list of movie objects, by popularity.
     // this function is for using '.sort()' ie '.sort(sortPopularity)'
     // console.log a movie object or check the TMDB website
@@ -313,7 +351,7 @@ function main() {
 
             // we take the value of the search bar as our 'searchInput'
             const searchInput = event.srcElement.value;
-            
+
             // we clear/delete our previously displayed movies and results.
             results.innerHTML = "";
             resultObjects = [];
@@ -343,16 +381,16 @@ function main() {
         } else if (event.keyCode == 13) { // enter
             event.srcElement.value = '';
             // toggleAutocompleteMatches();
-        // stopped here, not working yet    
-        // } else if (event.keyCode == 38) { // arrow up
-        //     if (resultCursor > 0) {
-        //         resultCursor--;
-        //         moveCursor(resultCursor);
-        //     }
-        // } else if (event.keyCode == 40) { // arrow down
-        //     // if (resultCursor < )
-        //     console.log(data)
-        // }
+            // stopped here, not working yet    
+            // } else if (event.keyCode == 38) { // arrow up
+            //     if (resultCursor > 0) {
+            //         resultCursor--;
+            //         moveCursor(resultCursor);
+            //     }
+            // } else if (event.keyCode == 40) { // arrow down
+            //     // if (resultCursor < )
+            //     console.log(data)
+            // }
         }
         if (event.srcElement.value.length <= 0) {
             resultArray.forEach((div) => {
@@ -379,6 +417,6 @@ function main() {
     };
     start(filterChoice);
 
-    };
+};
 
-    main();
+main();
