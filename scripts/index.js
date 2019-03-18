@@ -11,16 +11,15 @@ function main() {
     const results = document.querySelector("[data-autocomplete-results]");
     const matchesList = document.querySelector("[data-autocomplete-items]");
     
-    const aDiv = document.createElement("div");
     const iframe = document.createElement('iframe');
-
     iframe.setAttribute('class', 'iframeVideo');
     videoFrame.appendChild(iframe);
+    
     let currentFocus;
     let resultCursor = 0;
-
+    
     const imgURL = "https://image.tmdb.org/t/p/w200";
-
+    
     let resultArray = [];
     let resultObjects = [];
     let trendingList;
@@ -28,18 +27,21 @@ function main() {
     targetInput.addEventListener("focusout", closeSearch);
     targetInput.addEventListener("keyup", search);
     modalExitButton.addEventListener("click", closeModal);
-
+    
     let matches = [];
-
+    
     // focus the input
     targetInput.focus();
-
-
+    let myfocus = true;
+    
+    
     // SEARCH BAR SUGGESTED RESULTS
     // displayMatches - the search bar suggestions.
     // populate autocomplete results, accepts matchList array as an argument
     function displayMatches(matchList) {
-        console.log(matchList)
+        
+        // we create a sigle div, that will hold a div for each suggested result
+        const aDiv = document.createElement("div");
         // setting a class attribute for CSS styling our auto-results div
         aDiv.setAttribute("class", "autocomplete-items");
         aDiv.setAttribute("data-autocomplete-items", "data-autocomplete-items");
@@ -52,42 +54,63 @@ function main() {
             if (match.adult !== true) {
                 if (match['vote_count'] > 0) {
                     const bDiv = document.createElement("div");
+                    bDiv.setAttribute("class", "each-auto-complete-item");
+                    bDiv.addEventListener("click", searchResultClick);
                     bDiv.textContent = match.title;
                     bDiv.data = match;
                     aDiv.appendChild(bDiv);
                     resultArray.push(bDiv);
                     resultObjects.push(match);
+                    fetch(`https://api.themoviedb.org/3/movie/${match.id}/videos?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US`)
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                bDiv.video = data;
+            });
                 }
             }
             // targetInput.appendChild(aDiv);
             // results.appendChild(liElement);
         });
-        console.log(matchList.results[0])
 
         targetInput.parentNode.appendChild(aDiv);
         createElements(resultObjects);
 
-        moveCursor(resultCursor);
+        // moveCursor(resultCursor);
     };
+
+    // SEARCH SUGGESTION CLICK
+    // when a result in the search suggestions gets clicked -
+    function searchResultClick(event){
+        // first we delete all the suggested searches
+        resultArray.forEach((div) => {
+            div.remove();
+        });
+        // then we pass the event to the posterClick function
+        // which will open our modal.
+        posterClick(event);
+
+    }
 
     // moves cursor in the results list
-    function moveCursor(pos) {
-        console.log(pos) // pos = 0
-        const matchesList3 = document.querySelector("[data-autocomplete-items]")
-        // matchesList3[0].setAttribute("class", "highlighted")
-        // console.log(matchList)
-        // console.log(matchesList)
-        console.log(matchesList3)
-        console.log(matchesList3.firstChild)
-        const firstHighlightedDiv = matchesList3.firstChild.classList.add("highlighted");
-        console.log(firstHighlightedDiv)
+    // function moveCursor(pos) {
+    //     console.log(pos) // pos = 0
+    //     const matchesList3 = document.querySelector("[data-autocomplete-items]")
+    //     // matchesList3[0].setAttribute("class", "highlighted")
+    //     // console.log(matchList)
+    //     // console.log(matchesList)
+    //     console.log(matchesList3)
+    //     console.log(matchesList3.firstChild)
+    //     const firstHighlightedDiv = matchesList3.firstChild.classList.add("highlighted");
+    //     console.log(firstHighlightedDiv)
 
-        // matchesList3.firstChild.classList.remove("highlighted");
-        // matchesList3.firstChild.classList.add("highlighted");
+    //     // matchesList3.firstChild.classList.remove("highlighted");
+    //     // matchesList3.firstChild.classList.add("highlighted");
 
 
 
-    };
+    // };
 
 
 
@@ -103,9 +126,11 @@ function main() {
 
 
     // EXIT MODAL
-    // when the exit button gets clicked, we hide the modal.
+    // when the exit button gets clicked, we hide the modal via styles.
     function closeModal() {
         modal.style.display = "none";
+        // we delete the iframe '.src' to prevent the next modal from showing
+        // the previous video.
         iframe.src = ``;
     };
 
@@ -113,6 +138,7 @@ function main() {
     // POSTER CLICK
     // if you click on a poster, we show the modal while changing the trailer.
     function posterClick(event) {
+        console.log("YES")
         let youtubeURL = event.target.video.results[0].key;
         modal.style.display = "block";
         iframe.src = `https://www.youtube.com/embed/${youtubeURL}`;
