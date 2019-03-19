@@ -250,6 +250,53 @@ function main() {
         let youtubeURL = event.target.video.results[0].key;
         modal.style.display = "block";
         iframe.src = `https://www.youtube.com/embed/${youtubeURL}`;
+
+        const movieTitle = (event.target.data.title).split(" ");
+        if (movieTitle.length > 1) {
+            let omdbURL = '';
+            movieTitle.forEach((movie) => {
+                console.log(movie)
+                omdbURL += movie + '+'
+
+            }
+            )
+       omdbLink = (omdbURL.substring(0, omdbURL.length - 1))
+       console.log(omdbURL)
+    } else {
+        omdbLink = event.target.data.title
+        console.log('what')
+    }
+    let myURL = `https://www.omdbapi.com/?apikey=560e140f&t=${omdbLink}&plot=full`
+    console.log(myURL)
+        fetch(myURL)
+       .then((response) => {
+           return response.json();
+       })
+       .then((data) => {
+           console.log(data);
+           movieScores.textContent = "IMDB: " + data.Ratings[0].Value + " - " + "Rotten Tomatoes: " + data.Ratings[1].Value
+           + " Metacritic " + " - " + data.Ratings[2].Value;
+           movieInfo.textContent = "Plot: " + data.Plot;
+           console.log(data)
+        })
+        let movieID = event.target.data.id;
+        let tmdbID = `https://api.themoviedb.org/3/movie/${movieID}/credits?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e`
+        fetch(tmdbID)
+        .then((response) => {
+         return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            data.cast.forEach((actor) => {
+                // console.log(actor)
+                createActorDivs(actor)
+            })
+
+        }) 
+        
+        console.log(event.target.data)
+        console.log('yes')
+
         
     };
     
