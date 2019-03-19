@@ -137,6 +137,8 @@ body > * {
 
 .modal {
     display: none;
+    position: fixed;
+    justify-content: center;
     z-index: 1;
     width:100%;
     height: calc(100% - 20px);
