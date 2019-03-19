@@ -35,7 +35,7 @@ function main() {
         })
         listArea.onscroll = function() {
             // infinte scrolling black magic
-            if (listArea.scrollTop > ((listArea.scrollHeight - 150) - listArea.offsetHeight)){
+            if (listArea.scrollTop > ((listArea.scrollHeight - 500) - listArea.offsetHeight)){
                 page++;
                 addPage(page);
                 setTimeout(100);
