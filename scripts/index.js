@@ -161,28 +161,29 @@ function main() {
     //     // matchesList3.firstChild.classList.remove("highlighted");
     //     // matchesList3.firstChild.classList.add("highlighted");
 
-    
 
 
 
 
-    function addPage(page){
+
+    function addPage(page) {
         const clickedGenres = getClickedGenres()
         const myString = createQueryURL(clickedGenres)
-        start(myString.substring(0,myString.length -1) + page)
+        start(myString.substring(0, myString.length - 1) + page)
+        page++
     }
 
     let page = 1;
     addPage(page);
 
 
-    listArea.onscroll = function() {
+    listArea.onscroll = function () {
 
         // infinte scrolling black magic
-        if (listArea.scrollTop > ((listArea.scrollHeight - 100) - listArea.offsetHeight)){
+        if (listArea.scrollTop > ((listArea.scrollHeight - 100) - listArea.offsetHeight)) {
             page++;
             addPage(page);
-            
+
         }
     }
 
@@ -220,15 +221,15 @@ function main() {
         const clickedGenres = getClickedGenres()
         // createQueryURL(clickedGenres)
 
-    results.innerHTML = "";
-    resultObjects = [];
-    listArea.innerHTML = "";
-    trendingList = [];
-    page = 1;
+        results.innerHTML = "";
+        resultObjects = [];
+        listArea.innerHTML = "";
+        trendingList = [];
+        page = 1;
         // send filterChoice + clicked genres
 
 
-    addPage(page);
+        addPage(page);
     };
 
 
@@ -247,14 +248,16 @@ function main() {
     }
 
     function getClickedGenres() {
-        const clickedGenres = []; // array of clicked genres
+        const clickedGenres = [];
         const genreList = document.getElementsByName("genre");
         genreList.forEach((genre) => {
             if (genre.checked) {
+                console.log(genre.value)
                 clickedGenres.push(genre.value)
             }
         })
-        return clickedGenres
+
+        return clickedGenres // returns array of clicked genre id strings
     }
 
 
@@ -344,6 +347,8 @@ function main() {
     };
 
 
+
+
     // SEARCH BAR EVENT
     // our targetInput (the search bar) has a event listener for any key-up.
     // this is what we want to do everytime a key is pressed in our targetInput
@@ -405,6 +410,7 @@ function main() {
     };
 
     function start(choice) {
+
         fetch(choice)
             .then(response => {
                 return response.json();
@@ -412,7 +418,54 @@ function main() {
             .then(data => {
                 console.log(data)
                 trendingList = data.results
-                trendingList = trendingList.filter(movie => movie.title) 
+                trendingList = trendingList.filter(movie => movie.title)
+                // insert filter here
+
+                let clickedGenres = getClickedGenres();
+                console.log(clickedGenres)
+                // console.log(clickedGenres)
+                let clickedGenresIntegers = []; // array of integers
+                clickedGenres.forEach(genreIDstring => {
+                    clickedGenresIntegers.push(parseInt(genreIDstring, 10)) //converts the array of strings to an array of ints
+                })
+                console.log(clickedGenresIntegers)
+                console.log(trendingList) //[{}]
+                console.log(trendingList[0].genre_ids) // array of genre ids for the first movie in the list
+                if (clickedGenres.length > 0) {
+                    console.log('you have some genres selected!')
+                    console.log(trendingList.genre_ids)
+                    let filteredTrendingList = [];
+
+                    trendingList.forEach((movie) => {
+                        let filteredMovie = movie.genre_ids.filter((e) => clickedGenresIntegers.indexOf(e) !== -1)
+                        if (filteredMovie.length > 0) {
+                            filteredTrendingList.push(movie)
+                        }
+
+                        console.log(filteredTrendingList)
+                    })
+
+                    trendingList = filteredTrendingList;
+
+
+                    // console.log(movieObj)
+                    // console.log(movieObj.genre_ids) // array of ints
+
+                    // compare the `movieObj.genre_ids` to the `clickedGenresIntegers`
+
+
+
+                    // if(movieObj.genre_ids)
+                    //     trendingList[0].genre_ids.includes(clickedGenresIntegers)
+
+                    //     // })
+                    // })
+
+                    //     let filteredTrendingList = trendingList.filter(movie => { console.log(movie) })
+                    //     console.log(filteredTrendingList)
+                    //     console.log(trendingList)
+                }
+                // 
                 createElements(trendingList);
             });
     };
