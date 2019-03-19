@@ -130,6 +130,18 @@ body > * {
 
 }
 
+
+.score-style {
+    display: flex;
+    justify-content: center;
+}
+
+.info-style {
+    display: flex;
+     justify-content: center;
+}
+
+
 .modal {
     display: none;
     position: fixed;
