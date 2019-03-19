@@ -111,7 +111,7 @@ function main() {
     // 
     function openFilterModal() {
         const settingModal = document.querySelector("[data-settingModal]");
-        settingModal.style.display = "block";
+        settingModal.style.display = "flex";
 
     }
 
@@ -179,6 +179,7 @@ function main() {
     // EXIT MODAL
     // when the exit button gets clicked, we hide the modal via styles.
     function closeModal() {
+        const listArea = document.querySelector("[data-list]");
         const modal = document.querySelector("[data-modal]");
         const iframe = document.querySelector('[data-iframe]');
         const castDivContainer = document.querySelector('[data-cast]');
@@ -188,6 +189,7 @@ function main() {
         // we clear the innerHTML of the castDivContainer in order to show an updated list of actors for each movie
         castDivContainer.innerHTML = '';
         iframe.src = ``;
+        listArea.style.filter = "";
 
     };
 
@@ -234,13 +236,21 @@ function main() {
     // POSTER CLICK
     // if you click on a poster, we show the modal while changing the trailer.
     function posterClick(event) {
+        const listArea = document.querySelector("[data-list]");
         const modal = document.querySelector("[data-modal]");
         const movieScores = document.querySelector("[data-scores]")
         const movieInfo = document.querySelector("[data-movie-info")
-        const movieCast = document.querySelector("[data-cast]")
         const iframe = document.querySelector('[data-iframe]');
+        listArea.style.filter = "blur(8px)";
+        console.log(listArea.className)
+        // if (listArea.className === "none") {
+        //     x.style.display = "block";
+        // } else {
+        //     x.style.display = "none";
+        // }
         let youtubeURL = event.target.video.results[0].key;
-        modal.style.display = "block";
+
+        modal.style.display = "flex";
         iframe.src = `https://www.youtube.com/embed/${youtubeURL}`;
         const movieTitle = (event.target.data.title).split(" ");
         if (movieTitle.length > 1) {
