@@ -259,7 +259,7 @@ function main() {
        console.log(omdbURL)
     } else {
         omdbLink = event.target.data.title
-        console.log(omdbLink)
+        console.log('what')
     }
     let myURL = `https://www.omdbapi.com/?apikey=560e140f&t=${omdbLink}&plot=full`
     console.log(myURL)
