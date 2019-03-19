@@ -19,7 +19,10 @@ function main() {
         const videoFrame = document.querySelector("[data-videoFrame]");
         const dropdown = document.querySelector("[data-dropbutton]")
         const iframe = document.querySelector('[data-iframe]');
-        
+        const genreCheckBoxes = document.querySelectorAll("[data-genreCheckBox]");
+
+
+
         iframe.setAttribute('class', 'iframeVideo');
         videoFrame.appendChild(iframe);
 
@@ -30,6 +33,11 @@ function main() {
         targetInput.addEventListener("focusout", closeSearch);
         targetInput.addEventListener("keyup", search);
         targetInput.focus();
+
+        genreCheckBoxes.forEach((eaDiv) =>{
+            console.log(eaDiv)
+            eaDiv.addEventListener("click", genreClick)
+        })
         dropCategory.forEach((eaDiv) => {
             eaDiv.addEventListener("click", dropdownClick);
         })
@@ -110,7 +118,7 @@ function main() {
     // 
     function openFilterModal() {
         const settingModal = document.querySelector("[data-settingModal]");
-        settingModal.style.display = "block";
+        settingModal.style.display = "flex";
 
     }
 
@@ -221,6 +229,15 @@ function main() {
             }
         })
         return clickedGenres
+    }
+
+    function genreClick(event){
+        myResult = true;
+        if (event.target.children[0].checked){
+            myResult = false;
+        }
+        event.target.children[0].checked = myResult;
+
     }
     
     function createActorDivs(actorObject) {
@@ -333,6 +350,8 @@ function main() {
         .then((data) => {
             myImg.video = data;
         });
+
+
     };
     
     
@@ -342,6 +361,18 @@ function main() {
         myArray.forEach(movieObj => {
             createIMGelement(movieObj);
         });
+        setTimeout(checkPage,50);
+        function checkPage(){
+            console.log(listArea.scrollTop)
+            console.log((Number(listArea.scrollHeight) - Number(listArea.clientHeight)))
+            if(Number(listArea.scrollTop) === 0){
+                if ((Number(listArea.scrollHeight) - Number(listArea.clientHeight)) === 0){
+                    page++;
+                    addPage(page);
+                    setTimeout(100);
+                }
+            };
+        }
     };
 
     // SEARCH BAR EVENT
@@ -398,9 +429,31 @@ function main() {
                 return response.json();
             })
             .then(data => {
-                let trendingList = data.results;
-                
-                trendingList = trendingList.filter(movie => movie.title) 
+
+
+                let trendingList = data.results
+                trendingList = trendingList.filter(movie => movie.title)
+                // insert filter here
+
+                let clickedGenres = getClickedGenres();
+                // console.log(clickedGenres)
+                let clickedGenresIntegers = []; // array of integers
+                clickedGenres.forEach(genreIDstring => {
+                    clickedGenresIntegers.push(parseInt(genreIDstring, 10)) //converts the array of strings to an array of ints
+                })
+                if (clickedGenres.length > 0) {
+                    let filteredTrendingList = [];
+
+                    trendingList.forEach((movie) => {
+                        let filteredMovie = movie.genre_ids.filter((e) => clickedGenresIntegers.indexOf(e) !== -1)
+                        if (filteredMovie.length > 0) {
+                            filteredTrendingList.push(movie)
+                        }
+                    })
+
+                    trendingList = filteredTrendingList;
+                }
+               
                 createElements(trendingList);
             });
         };
