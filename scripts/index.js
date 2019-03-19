@@ -359,7 +359,7 @@ function main() {
     // our targetInput (the search bar) has a event listener for any key-up.
     // this is what we want to do everytime a key is pressed in our targetInput
     function search(event) {
-
+        const listArea = document.querySelector("[data-list]");
         // key-code 13 is 'ENTER'
         // if it is NOT 13 -
         if (event.keyCode !== 13) {
