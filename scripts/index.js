@@ -148,13 +148,14 @@ function main() {
     //     // matchesList3.firstChild.classList.remove("highlighted");
     //     // matchesList3.firstChild.classList.add("highlighted");
 
+  
     function addPage(page){
         start(filterChoice + page)
     }
 
     function startInitialPage(){
         addPage(page);
-    }
+
     
     
     // SEARCH BAR FOCUS OUT
@@ -202,25 +203,29 @@ function main() {
         })
         const clickedGenres = getClickedGenres()
         // createQueryURL(clickedGenres)
+
         
         results.innerHTML = "";
         resultObjects = [];
         listArea.innerHTML = "";
         page = 1;
         // send filterChoice + clicked genres
+
         addPage(page);
     };
     
     
     function getClickedGenres() {
-        const clickedGenres = []; // array of clicked genres
+        const clickedGenres = [];
         const genreList = document.getElementsByName("genre");
         genreList.forEach((genre) => {
             if (genre.checked) {
+                console.log(genre.value)
                 clickedGenres.push(genre.value)
             }
         })
-        return clickedGenres
+
+        return clickedGenres // returns array of clicked genre id strings
     }
     
     
@@ -286,6 +291,37 @@ function main() {
         });
     };
 
+
+
+    function toggleAutocompleteMatches() {
+        const matchesList2 = document.querySelector("[data-autocomplete-items]")
+        // console.log(matchesList2)
+        if (matchesList2.style.display === 'none') {
+            matchesList2.style.display = "block";
+        } else {
+            matchesList2.style.display = 'none';
+
+        }
+    }
+
+
+    // MOVIE LIST SORT
+    // this is for sorting a list of movie objects, by popularity.
+    // this function is for using '.sort()' ie '.sort(sortPopularity)'
+    // console.log a movie object or check the TMDB website
+    // to see what '.popularity' is
+    function sortPopularity(a, b) {
+        if (a.popularity > b.popularity) {
+            return -1;
+        }
+        if (b.popularity > a.popularity) {
+            return 1;
+        }
+        return 0;
+    };
+
+
+
     // SEARCH BAR EVENT
     // our targetInput (the search bar) has a event listener for any key-up.
     // this is what we want to do everytime a key is pressed in our targetInput
@@ -326,6 +362,7 @@ function main() {
             }
         } else if (event.keyCode == 13) { // enter
             event.srcElement.value = '';
+
             }
             if (event.srcElement.value.length <= 0) {
                 resultArray.forEach((div) => {
@@ -336,12 +373,50 @@ function main() {
         
         function start(choice) {
             fetch(choice)
+
             .then(response => {
                 return response.json();
             })
             .then(data => {
                 let trendingList = data.results;
-                trendingList = trendingList.filter(movie => movie.title) 
+                trendingList = trendingList.filter(movie => movie.title);
+                let clickedGenres = getClickedGenres();
+                // console.log(clickedGenres)
+                let clickedGenresIntegers = []; // array of integers
+                clickedGenres.forEach(genreIDstring => {
+                    clickedGenresIntegers.push(parseInt(genreIDstring, 10)) //converts the array of strings to an array of ints
+                })
+                if (clickedGenres.length > 0) {
+                    let filteredTrendingList = [];
+
+                    trendingList.forEach((movie) => {
+                        let filteredMovie = movie.genre_ids.filter((e) => clickedGenresIntegers.indexOf(e) !== -1)
+                        if (filteredMovie.length > 0) {
+                            filteredTrendingList.push(movie)
+                        }
+                    })
+
+                    trendingList = filteredTrendingList;
+
+
+                    // console.log(movieObj)
+                    // console.log(movieObj.genre_ids) // array of ints
+
+                    // compare the `movieObj.genre_ids` to the `clickedGenresIntegers`
+
+
+
+                    // if(movieObj.genre_ids)
+                    //     trendingList[0].genre_ids.includes(clickedGenresIntegers)
+
+                    //     // })
+                    // })
+
+                    //     let filteredTrendingList = trendingList.filter(movie => { console.log(movie) })
+                    //     console.log(filteredTrendingList)
+                    //     console.log(trendingList)
+                }
+
                 createElements(trendingList);
             });
         };
