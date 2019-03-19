@@ -42,9 +42,9 @@ body > * {
   .dropdown {
     position: relative;
     display: inline-block;
-  }
+}
   
-  .dropdown-content {
+.dropdown-content {
     display: none;
     position: absolute;
     background-color: #f1f1f1;
@@ -164,6 +164,7 @@ body > * {
 .modal {
     display: none;
     position: fixed;
+    justify-content: center;
     z-index: 1;
     width:100%;
     height: calc(100% - 20px);
