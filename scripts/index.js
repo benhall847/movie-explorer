@@ -1,13 +1,8 @@
 
 function main() {
     const listArea = document.querySelector("[data-list]");
-    const results = document.querySelector("[data-autocomplete-results]");
-
     let resultArray = [];
-    let resultObjects = [];
     let page = 1;
-    let filterChoice = "https://api.themoviedb.org/3/movie/now_playing?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=";
-
     
     
     function addEventListeners(){
@@ -34,7 +29,6 @@ function main() {
         targetInput.focus();
 
         genreCheckBoxes.forEach((eaDiv) =>{
-            console.log(eaDiv)
             eaDiv.addEventListener("click", genreClick)
         })
         dropCategory.forEach((eaDiv) => {
@@ -70,7 +64,7 @@ function main() {
     // displayMatches - the search bar suggestions.
     // populate autocomplete results, accepts matchList array as an argument
     function displayMatches(matchList) {
-
+        let resultObjects = [];
         const targetInput = document.querySelector("[data-searchBar]");
         // we create a sigle div, that will hold a div for each suggested result
         const aDiv = document.createElement("div");
@@ -130,7 +124,6 @@ function main() {
     // when a result in the search suggestions gets clicked -
     function searchResultClick(event) {
         // first we delete all the suggested searches
-        console.log("yes")
         resultArray.forEach((div) => {
             div.remove();
         });
@@ -139,29 +132,35 @@ function main() {
         posterClick(event);
 
     }
-
-    // moves cursor in the results list
-    // function moveCursor(pos) {
-    //     console.log(pos) // pos = 0
-    //     const matchesList3 = document.querySelector("[data-autocomplete-items]")
-    //     // matchesList3[0].setAttribute("class", "highlighted")
-    //     // console.log(matchList)
-    //     // console.log(matchesList)
-    //     console.log(matchesList3)
-    //     console.log(matchesList3.firstChild)
-    //     const firstHighlightedDiv = matchesList3.firstChild.classList.add("highlighted");
-    //     console.log(firstHighlightedDiv)
-
-    //     // matchesList3.firstChild.classList.remove("highlighted");
-    //     // matchesList3.firstChild.classList.add("highlighted");
-
+    
     function addPage(page){
+        const dropdown = document.querySelector("[data-dropbutton]");
+        const settingModal = document.querySelector("[data-settingModal]");
+        
+        let filterChoice = "https://api.themoviedb.org/3/movie/now_playing?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=";
+        const filterArray = [
+            { "In Theaters": "https://api.themoviedb.org/3/movie/now_playing?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=" },
+            
+            { "Upcoming": "https://api.themoviedb.org/3/movie/upcoming?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=" },
+            
+            { "Most Popular": "https://api.themoviedb.org/3/movie/popular?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=" },
+            
+            { "Top Rated": "https://api.themoviedb.org/3/movie/top_rated?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=" }
+        ]
+        settingModal.style.display = "none";
+        filterArray.forEach((obj) => {
+            if (Object.keys(obj)[0] === dropdown.textContent) {
+                filterChoice = obj[Object.keys(obj)[0]];
+            }
+        })
+        
         start(filterChoice + page)
+        
     }
-
     function startInitialPage(){
         addPage(page);
     }
+    
     
     
     // SEARCH BAR FOCUS OUT
@@ -190,28 +189,8 @@ function main() {
     };
     
     function closeSetting() {
-        const dropdown = document.querySelector("[data-dropbutton]")
-        const settingModal = document.querySelector("[data-settingModal]");
-        const filterArray = [
-            { "In Theaters": "https://api.themoviedb.org/3/movie/now_playing?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=" },
-            
-            { "Upcoming": "https://api.themoviedb.org/3/movie/upcoming?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=" },
-            
-            { "Most Popular": "https://api.themoviedb.org/3/movie/popular?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=" },
-            
-            { "Top Rated": "https://api.themoviedb.org/3/movie/top_rated?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=" }
-        ]
-        settingModal.style.display = "none";
-        filterArray.forEach((obj) => {
-            if (Object.keys(obj)[0] === dropdown.textContent) {
-                filterChoice = obj[Object.keys(obj)[0]];
-            }
-        })
         const clickedGenres = getClickedGenres()
         // createQueryURL(clickedGenres)
-        
-        results.innerHTML = "";
-        resultObjects = [];
         listArea.innerHTML = "";
         page = 1;
         // send filterChoice + clicked genres
@@ -232,7 +211,7 @@ function main() {
 
     function genreClick(event){
         myResult = true;
-        if (event.target.children[0].checked){
+        if (event.target.children["0"].checked){
             myResult = false;
         }
         event.target.children[0].checked = myResult;
@@ -240,9 +219,7 @@ function main() {
     }
     
     function createActorDivs(actorObject) {
-        console.log(actorObject)
         const actorURL = `https://image.tmdb.org/t/p/w200${actorObject.profile_path}`
-        console.log(actorURL)
         let castDiv = document.querySelector('[data-cast]');
         let actorDiv = document.createElement('div');
         let actorImg = document.createElement('img')
@@ -266,49 +243,38 @@ function main() {
         if (movieTitle.length > 1) {
             let omdbURL = '';
             movieTitle.forEach((movie) => {
-                console.log(movie)
                 omdbURL += movie + '+'
 
             }
             )
-       omdbLink = (omdbURL.substring(0, omdbURL.length - 1))
-       console.log(omdbURL)
+        omdbLink = (omdbURL.substring(0, omdbURL.length - 1))
     } else {
         omdbLink = event.target.data.title
-        console.log('what')
     }
     let myURL = `https://www.omdbapi.com/?apikey=560e140f&t=${omdbLink}&plot=full`
-    console.log(myURL)
         fetch(myURL)
-       .then((response) => {
-           return response.json();
-       })
-       .then((data) => {
-           console.log(data);
-           movieScores.textContent = "IMDB: " + data.Ratings[0].Value + " - " + "Rotten Tomatoes: " + data.Ratings[1].Value
-           + " Metacritic " + " - " + data.Ratings[2].Value;
-           movieInfo.textContent = "Plot: " + data.Plot;
-           console.log(data)
+        .then((response) => {
+                return response.json();
+        })
+        .then((data) => {
+
+            movieScores.textContent = "IMDB: " + data.Ratings[0].Value + " - " + "Rotten Tomatoes: " + data.Ratings[1].Value
+            + " Metacritic " + " - " + data.Ratings[2].Value;
+            movieInfo.textContent = "Plot: " + data.Plot;
+
         })
         let movieID = event.target.data.id;
         let tmdbID = `https://api.themoviedb.org/3/movie/${movieID}/credits?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e`
         fetch(tmdbID)
-        .then((response) => {
-         return response.json();
-        })
-        .then((data) => {
-            console.log(data);
-            data.cast.forEach((actor) => {
-                // console.log(actor)
-                createActorDivs(actor)
+            .then((response) => {
+                return response.json();
             })
+            .then((data) => {
+                data.cast.forEach((actor) => {
+                    createActorDivs(actor)
+                })
+            }) 
 
-        }) 
-        
-        console.log(event.target.data)
-        console.log('yes')
-
-        
     };
     
     
@@ -335,7 +301,6 @@ function main() {
         // this allows us to hide that data, and 
         // refrence it later when its clicked with - event.target.data
         myImg.data = obj;
-        console.log(obj)
         // we make each image clickable.
         myImg.addEventListener("click", posterClick);
         
@@ -359,6 +324,16 @@ function main() {
         myArray.forEach(movieObj => {
             createIMGelement(movieObj);
         });
+        setTimeout(checkPage,50);
+        function checkPage(){
+            if(Number(listArea.scrollTop) === 0){
+                if ((Number(listArea.scrollHeight) - Number(listArea.clientHeight)) === 0){
+                    page++;
+                    addPage(page);
+                    setTimeout(100);
+                }
+            };
+        }
     };
 
     // SEARCH BAR EVENT
@@ -374,8 +349,6 @@ function main() {
             const searchInput = event.srcElement.value;
             
             // we clear/delete our previously displayed movies and results.
-            results.innerHTML = "";
-            resultObjects = [];
             listArea.innerHTML = "";
             page = 1;
             // this will delete all of our search-bar suggestions,
@@ -416,6 +389,25 @@ function main() {
             })
             .then(data => {
                 let trendingList = data.results;
+                trendingList = trendingList.filter(movie => movie.title);
+                let clickedGenres = getClickedGenres();
+                // console.log(clickedGenres)
+                let clickedGenresIntegers = []; // array of integers
+                clickedGenres.forEach(genreIDstring => {
+                    clickedGenresIntegers.push(parseInt(genreIDstring, 10)) //converts the array of strings to an array of ints
+                })
+                if (clickedGenres.length > 0) {
+                    let filteredTrendingList = [];
+
+                    trendingList.forEach((movie) => {
+                        let filteredMovie = movie.genre_ids.filter((e) => clickedGenresIntegers.indexOf(e) !== -1)
+                        if (filteredMovie.length > 0) {
+                            filteredTrendingList.push(movie)
+                        }
+                    })
+
+                    trendingList = filteredTrendingList;
+                }
                 
                 trendingList = trendingList.filter(movie => movie.title) 
                 createElements(trendingList);
