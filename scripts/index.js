@@ -1,13 +1,12 @@
 
 function main() {
-    const listArea = document.querySelector("[data-list]");
     let resultArray = [];
     let page = 1;
 
     
     
     function addEventListeners(){
-
+        const listArea = document.querySelector("[data-list]");
         const filterButton = document.querySelector("[data-filter]");
         const settingExitButton = document.querySelector("[data-settingModalClose]");
         const modalExitButton = document.querySelector("[data-modalClose]");
@@ -21,7 +20,6 @@ function main() {
 
         iframe.setAttribute('class', 'iframeVideo');
         videoFrame.appendChild(iframe);
-
         modalExitButton.addEventListener("click", closeModal);
         settingExitButton.addEventListener("click", closeSetting);
         filterButton.addEventListener("click", openFilterModal);
@@ -194,9 +192,7 @@ function main() {
     };
 
     function closeSetting() {
-
-        const clickedGenres = getClickedGenres()
-        // createQueryURL(clickedGenres)
+        const listArea = document.querySelector("[data-list]");
         listArea.innerHTML = "";
         page = 1;
         // send filterChoice + clicked genres
@@ -289,6 +285,7 @@ function main() {
     // POSTER IMAGE CREATOR
     // createIMGelement creates a single poster image from a movie object.
     function createIMGelement(obj) {
+        const listArea = document.querySelector("[data-list]");
 
         const imgURL = "https://image.tmdb.org/t/p/w200";
 
@@ -334,6 +331,7 @@ function main() {
         });
         setTimeout(checkPage,50);
         function checkPage(){
+            const listArea = document.querySelector("[data-list]");
             if(Number(listArea.scrollTop) === 0){
                 if ((Number(listArea.scrollHeight) - Number(listArea.clientHeight)) === 0){
                     page++;
