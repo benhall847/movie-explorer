@@ -118,7 +118,7 @@ function main() {
     // 
     function openFilterModal() {
         const settingModal = document.querySelector("[data-settingModal]");
-        settingModal.style.display = "flex";
+        settingModal.style.display = "block";
 
     }
 

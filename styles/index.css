@@ -53,11 +53,6 @@ body > * {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
-.genreCheckBoxes{
-    height: 100%;
-    overflow: scroll;
-}
-
 
 .genreCheckBoxes div:hover{
     background-color: #888;
@@ -137,6 +132,7 @@ body > * {
 
 .modal {
     display: none;
+    position: fixed;
     z-index: 1;
     width:100%;
     height: calc(100% - 20px);
@@ -180,10 +176,10 @@ body > * {
 .settings-modal {
     display: none;
     position: fixed;
-    justify-content: center;
     z-index: 1;
     width:100%;
     height: calc(100% - 20px);
+    overflow: auto;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
 }
@@ -193,17 +189,14 @@ body > * {
     margin: 1%;
     padding:10px;
     border: 3px solid #888;
-    width: 75%;
-    height: 50%;
+    width: 95%;
+    height: 90%;
 }
 
 .settings-modal-frame{
-    display: flex;
-    flex-direction: row;
     border: 3px solid black;
+    height: 100%;
     width: 100%;
-    overflow: scroll;
-    height: calc(100% - 50px)
 }
 
 .video-frame{
