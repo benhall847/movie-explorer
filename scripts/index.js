@@ -8,9 +8,9 @@ function main() {
     let page = 1;
     let filterChoice = "https://api.themoviedb.org/3/movie/now_playing?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=";
 
-    
-    
-    function addEventListeners(){
+
+
+    function addEventListeners() {
         const filterButton = document.querySelector("[data-filter]");
         const settingExitButton = document.querySelector("[data-settingModalClose]");
         const modalExitButton = document.querySelector("[data-modalClose]");
@@ -19,7 +19,7 @@ function main() {
         const videoFrame = document.querySelector("[data-videoFrame]");
         const dropdown = document.querySelector("[data-dropbutton]")
         const iframe = document.querySelector('[data-iframe]');
-        
+
         const genreCheckBoxes = document.querySelectorAll("[data-genreCheckBox]");
 
         iframe.setAttribute('class', 'iframeVideo');
@@ -33,16 +33,16 @@ function main() {
         targetInput.addEventListener("keyup", search);
         targetInput.focus();
 
-        genreCheckBoxes.forEach((eaDiv) =>{
+        genreCheckBoxes.forEach((eaDiv) => {
             console.log(eaDiv)
             eaDiv.addEventListener("click", genreClick)
         })
         dropCategory.forEach((eaDiv) => {
             eaDiv.addEventListener("click", dropdownClick);
         })
-        listArea.onscroll = function() {
+        listArea.onscroll = function () {
             // infinte scrolling black magic
-            if (listArea.scrollTop > ((listArea.scrollHeight - 500) - listArea.offsetHeight)){
+            if (listArea.scrollTop > ((listArea.scrollHeight - 500) - listArea.offsetHeight)) {
                 page++;
                 addPage(page);
                 setTimeout(100);
@@ -50,8 +50,8 @@ function main() {
         }
     }
     addEventListeners()
-    
-    
+
+
 
     function dropdownClick(event) {
         const dropdown = document.querySelector("[data-dropbutton]")
@@ -155,15 +155,15 @@ function main() {
     //     // matchesList3.firstChild.classList.remove("highlighted");
     //     // matchesList3.firstChild.classList.add("highlighted");
 
-    function addPage(page){
+    function addPage(page) {
         start(filterChoice + page)
     }
 
-    function startInitialPage(){
+    function startInitialPage() {
         addPage(page);
     }
-    
-    
+
+
     // SEARCH BAR FOCUS OUT
     // If the user focuses outside of the search-bar
     // delete the search-suggestions.
@@ -175,30 +175,34 @@ function main() {
         }
         setTimeout(deleteAll, 200);
     };
-    
-    
-    
+
+
+
     // EXIT MODAL
     // when the exit button gets clicked, we hide the modal via styles.
     function closeModal() {
         const modal = document.querySelector("[data-modal]");
         const iframe = document.querySelector('[data-iframe]');
+        const castDivContainer = document.querySelector('[data-cast]');
         modal.style.display = "none";
         // we delete the iframe '.src' to prevent the next modal from showing
         // the previous video.
+        // we clear the innerHTML of the castDivContainer in order to show an updated list of actors for each movie
+        castDivContainer.innerHTML = '';
         iframe.src = ``;
+
     };
-    
+
     function closeSetting() {
         const dropdown = document.querySelector("[data-dropbutton]")
         const settingModal = document.querySelector("[data-settingModal]");
         const filterArray = [
             { "In Theaters": "https://api.themoviedb.org/3/movie/now_playing?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=" },
-            
+
             { "Upcoming": "https://api.themoviedb.org/3/movie/upcoming?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=" },
-            
+
             { "Most Popular": "https://api.themoviedb.org/3/movie/popular?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=" },
-            
+
             { "Top Rated": "https://api.themoviedb.org/3/movie/top_rated?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&page=" }
         ]
         settingModal.style.display = "none";
@@ -209,7 +213,7 @@ function main() {
         })
         const clickedGenres = getClickedGenres()
         // createQueryURL(clickedGenres)
-        
+
         results.innerHTML = "";
         resultObjects = [];
         listArea.innerHTML = "";
@@ -217,8 +221,8 @@ function main() {
         // send filterChoice + clicked genres
         addPage(page);
     };
-    
-    
+
+
     function getClickedGenres() {
         const clickedGenres = []; // array of clicked genres
         const genreList = document.getElementsByName("genre");
@@ -230,15 +234,15 @@ function main() {
         return clickedGenres
     }
 
-    function genreClick(event){
+    function genreClick(event) {
         myResult = true;
-        if (event.target.children[0].checked){
+        if (event.target.children[0].checked) {
             myResult = false;
         }
         event.target.children[0].checked = myResult;
 
     }
-    
+
     function createActorDivs(actorObject) {
         console.log(actorObject)
         const actorURL = `https://image.tmdb.org/t/p/w200${actorObject.profile_path}`
@@ -250,7 +254,7 @@ function main() {
         castDiv.appendChild(actorDiv);
         actorImg.setAttribute('src', actorURL);
     }
-    
+
     // POSTER CLICK
     // if you click on a poster, we show the modal while changing the trailer.
     function posterClick(event) {
@@ -271,66 +275,66 @@ function main() {
 
             }
             )
-       omdbLink = (omdbURL.substring(0, omdbURL.length - 1))
-       console.log(omdbURL)
-    } else {
-        omdbLink = event.target.data.title
-        console.log('what')
-    }
-    let myURL = `https://www.omdbapi.com/?apikey=560e140f&t=${omdbLink}&plot=full`
-    console.log(myURL)
+            omdbLink = (omdbURL.substring(0, omdbURL.length - 1))
+            console.log(omdbURL)
+        } else {
+            omdbLink = event.target.data.title
+            console.log('what')
+        }
+        let myURL = `https://www.omdbapi.com/?apikey=560e140f&t=${omdbLink}&plot=full`
+        console.log(myURL)
         fetch(myURL)
-       .then((response) => {
-           return response.json();
-       })
-       .then((data) => {
-           console.log(data);
-           movieScores.textContent = "IMDB: " + data.Ratings[0].Value + " - " + "Rotten Tomatoes: " + data.Ratings[1].Value
-           + " Metacritic " + " - " + data.Ratings[2].Value;
-           movieInfo.textContent = "Plot: " + data.Plot;
-           console.log(data)
-        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                movieScores.textContent = "IMDB: " + data.Ratings[0].Value + " - " + "Rotten Tomatoes: " + data.Ratings[1].Value
+                    + " Metacritic " + " - " + data.Ratings[2].Value;
+                movieInfo.textContent = "Plot: " + data.Plot;
+                console.log(data)
+            })
         let movieID = event.target.data.id;
         let tmdbID = `https://api.themoviedb.org/3/movie/${movieID}/credits?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e`
         fetch(tmdbID)
-        .then((response) => {
-         return response.json();
-        })
-        .then((data) => {
-            console.log(data);
-            data.cast.forEach((actor) => {
-                // console.log(actor)
-                createActorDivs(actor)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                data.cast.forEach((actor) => {
+                    // console.log(actor)
+                    createActorDivs(actor)
+                })
+
             })
 
-        }) 
-        
         console.log(event.target.data)
         console.log('yes')
 
-        
+
     };
-    
-    
+
+
     // POSTER IMAGE CREATOR
     // createIMGelement creates a single poster image from a movie object.
     function createIMGelement(obj) {
-        
+
         const imgURL = "https://image.tmdb.org/t/p/w200";
-        
+
         // each image is inside its own div, for styling as a 'poster-frame'.
         // each poster-frame div is inside a single div 'listArea'.
         const aDiv = document.createElement("div");
         const myImg = document.createElement("img");
         aDiv.appendChild(myImg);
         listArea.appendChild(aDiv);
-        
+
         // we set some attributes for styling in CSS
         // and the src image of each poster from the movie object.
         myImg.setAttribute("src", `${imgURL}${obj.poster_path}`);
         aDiv.setAttribute("class", "poster-frame");
         myImg.setAttribute("class", "poster-image");
-        
+
         // we give each image a '.data' attribute with a value of its own movie object.
         // this allows us to hide that data, and 
         // refrence it later when its clicked with - event.target.data
@@ -338,21 +342,21 @@ function main() {
         console.log(obj)
         // we make each image clickable.
         myImg.addEventListener("click", posterClick);
-        
+
         // for each image we fetch the youtube trailer video data
         // then we give each image a '.video' attribute with a value of its youtube trailer data.
         // this allows us to hide that data, and
         // refrence it later when its clicked with - event.target.video
         fetch(`https://api.themoviedb.org/3/movie/${obj.id}/videos?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US`)
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-            myImg.video = data;
-        });
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                myImg.video = data;
+            });
     };
-    
-    
+
+
     // FOR ONE FOR MANY
     // this takes a list of movie objects, and feeds them to createIMGelement.
     function createElements(myArray) {
@@ -365,14 +369,14 @@ function main() {
     // our targetInput (the search bar) has a event listener for any key-up.
     // this is what we want to do everytime a key is pressed in our targetInput
     function search(event) {
-        
+
         // key-code 13 is 'ENTER'
         // if it is NOT 13 -
         if (event.keyCode !== 13) {
-            
+
             // we take the value of the search bar as our 'searchInput'
             const searchInput = event.srcElement.value;
-            
+
             // we clear/delete our previously displayed movies and results.
             results.innerHTML = "";
             resultObjects = [];
@@ -386,42 +390,42 @@ function main() {
                     div.remove();
                 });
             }
-            
-            
+
+
             if (searchInput.length > 0) {
                 let matches = fetch(`https://api.themoviedb.org/3/search/movie?api_key=a2fe439608a4e1ab4fe40ea29bac0e9e&language=en-US&query=${searchInput}&page=1&include_adult=false`)
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    if (data.results.length > 0) {
-                        displayMatches(data);
-                    }
-                })
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        if (data.results.length > 0) {
+                            displayMatches(data);
+                        }
+                    })
             }
         } else if (event.keyCode == 13) { // enter
             event.srcElement.value = '';
-            }
-            if (event.srcElement.value.length <= 0) {
-                resultArray.forEach((div) => {
-                    div.remove();
-                });
-            }
-        };
-        
-        function start(choice) {
-            fetch(choice)
+        }
+        if (event.srcElement.value.length <= 0) {
+            resultArray.forEach((div) => {
+                div.remove();
+            });
+        }
+    };
+
+    function start(choice) {
+        fetch(choice)
             .then(response => {
                 return response.json();
             })
             .then(data => {
                 let trendingList = data.results;
-                
-                trendingList = trendingList.filter(movie => movie.title) 
+
+                trendingList = trendingList.filter(movie => movie.title)
                 createElements(trendingList);
             });
-        };
-        startInitialPage()
     };
-    
-    main();
+    startInitialPage()
+};
+
+main();
