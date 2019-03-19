@@ -17,9 +17,6 @@ body {
     flex-direction: column;
 }
 
-body > * {
-    border: 1px solid black;
-}
 
 .each-auto-complete-item:hover{
     background-color: #888;
@@ -95,6 +92,7 @@ body > * {
     justify-content: center;
     padding-top: 10px;
     padding-right: 10px;
+    background-color: dimgray;
     }
 
 .visible {
@@ -105,10 +103,6 @@ body > * {
     height: 40px;
     width: 100%;
 }
-/* .search-bar{
-    display: flex;
-    justify-content: flex-start;
-} */
 
 .formSearchInput{
     padding-top: 2px;
@@ -120,7 +114,7 @@ body > * {
     padding: 10px;
     padding-top: 5px;
     height: 30px;
-    background-color: #888;
+    background-color: mediumseagreen;
     color:white;
 
 }
@@ -149,8 +143,9 @@ body > * {
 
 .poster-image {
     display: block;
-    width: 98%;
-    height: 98%;
+    width: 100%;
+    height: 100%;
+    padding: 2px;
 
 }
 
@@ -211,14 +206,6 @@ body > * {
 
 }
 
-.settingsClose{
-    display: block;
-    z-index: 99;
-    position: fixed;
-    width: 120px;
-
-}
-
 .close{
     display: block;
     color: #aaaaaa;
@@ -249,8 +236,9 @@ body > * {
 }
 
 .settings-modal-content{
-    background-color: #fefefe;
-    width: 125px;
+    background-color: rgba(0,0,0,0.85);
+    color: #fefefe;
+    width: 140px;
     height: 60%;
 }
 
@@ -259,8 +247,7 @@ body > * {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 3px solid black;
-    width: 100%;
+    width: 88%;
     height:100%;
 }
 .genreCheckBoxes div:hover{

@@ -110,8 +110,10 @@ function main() {
     // FILTER MODAL CLICK
     // 
     function openFilterModal() {
+        const listArea = document.querySelector("[data-list]");
         const settingModal = document.querySelector("[data-settingModal]");
         settingModal.style.display = "flex";
+        listArea.style.filter = "blur(8px)";
 
     }
 
@@ -196,6 +198,7 @@ function main() {
     function closeSetting() {
         const listArea = document.querySelector("[data-list]");
         listArea.innerHTML = "";
+        listArea.style.filter = "";
         page = 1;
         // send filterChoice + clicked genres
         addPage(page);
