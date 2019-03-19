@@ -340,8 +340,39 @@ function main() {
                 return response.json();
             })
             .then(data => {
-                let trendingList = data.results;
-                trendingList = trendingList.filter(movie => movie.title) 
+
+                console.log(data)
+                trendingList = data.results
+                trendingList = trendingList.filter(movie => movie.title)
+                // insert filter here
+
+                let clickedGenres = getClickedGenres();
+                console.log(clickedGenres)
+                // console.log(clickedGenres)
+                let clickedGenresIntegers = []; // array of integers
+                clickedGenres.forEach(genreIDstring => {
+                    clickedGenresIntegers.push(parseInt(genreIDstring, 10)) //converts the array of strings to an array of ints
+                })
+                console.log(clickedGenresIntegers)
+                console.log(trendingList) //[{}]
+                console.log(trendingList[0].genre_ids) // array of genre ids for the first movie in the list
+                if (clickedGenres.length > 0) {
+                    console.log('you have some genres selected!')
+                    console.log(trendingList.genre_ids)
+                    let filteredTrendingList = [];
+
+                    trendingList.forEach((movie) => {
+                        let filteredMovie = movie.genre_ids.filter((e) => clickedGenresIntegers.indexOf(e) !== -1)
+                        if (filteredMovie.length > 0) {
+                            filteredTrendingList.push(movie)
+                        }
+
+                        console.log(filteredTrendingList)
+                    })
+
+                    trendingList = filteredTrendingList;
+                }
+                
                 createElements(trendingList);
             });
         };
