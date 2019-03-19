@@ -446,24 +446,6 @@ function main() {
                     })
 
                     trendingList = filteredTrendingList;
-
-
-                    // console.log(movieObj)
-                    // console.log(movieObj.genre_ids) // array of ints
-
-                    // compare the `movieObj.genre_ids` to the `clickedGenresIntegers`
-
-
-
-                    // if(movieObj.genre_ids)
-                    //     trendingList[0].genre_ids.includes(clickedGenresIntegers)
-
-                    //     // })
-                    // })
-
-                    //     let filteredTrendingList = trendingList.filter(movie => { console.log(movie) })
-                    //     console.log(filteredTrendingList)
-                    //     console.log(trendingList)
                 }
                 // 
                 createElements(trendingList);
