@@ -20,6 +20,8 @@ function main() {
         const dropdown = document.querySelector("[data-dropbutton]")
         const iframe = document.querySelector('[data-iframe]');
         
+        const genreCheckBoxes = document.querySelectorAll("[data-genreCheckBox]");
+
         iframe.setAttribute('class', 'iframeVideo');
         videoFrame.appendChild(iframe);
 
@@ -30,6 +32,11 @@ function main() {
         targetInput.addEventListener("focusout", closeSearch);
         targetInput.addEventListener("keyup", search);
         targetInput.focus();
+
+        genreCheckBoxes.forEach((eaDiv) =>{
+            console.log(eaDiv)
+            eaDiv.addEventListener("click", genreClick)
+        })
         dropCategory.forEach((eaDiv) => {
             eaDiv.addEventListener("click", dropdownClick);
         })
@@ -221,6 +228,15 @@ function main() {
             }
         })
         return clickedGenres
+    }
+
+    function genreClick(event){
+        myResult = true;
+        if (event.target.children[0].checked){
+            myResult = false;
+        }
+        event.target.children[0].checked = myResult;
+
     }
     
     function createActorDivs(actorObject) {
