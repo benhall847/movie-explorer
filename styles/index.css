@@ -71,7 +71,9 @@ body {
 }
 
 .cast div {
+    padding-left: 20px;
     display: flex;
+    flex-direction: column;
 
 }
 

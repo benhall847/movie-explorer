@@ -281,7 +281,9 @@ function posterClick(event) {
             })
             .then((data) => {
                 data.cast.forEach((actor) => {
-                    createActorDivs(actor)
+                    if (actor.profile_path){
+                        createActorDivs(actor)
+                    }
                 })
             }) 
 };
