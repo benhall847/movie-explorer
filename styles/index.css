@@ -72,13 +72,13 @@ body {
 
 .cast div {
     display: flex;
-    width: 40px;
-    height: 60px;
-    flex: 0 0 auto;
+
 }
 
 .cast div img {
-    width: 100%;
+    width: 40px;
+    height: 60px;
+    flex: 0 0 auto;
 
 }
 
