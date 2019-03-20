@@ -59,6 +59,8 @@ body {
 
 
 .cast {
+    min-height: 120px;
+    height: 120px;
     display: flex;
     flex-direction: row;
     overflow: none;
@@ -139,7 +141,8 @@ body {
 .poster-frame{
     width: 50%;
     padding-top: 2px;
-    padding-left: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 
@@ -193,6 +196,10 @@ body {
     align-items: center;
     overflow: scroll;
 
+}
+
+.modal-frame > * {
+    flex: 0 0 auto;
 }
 
 .modal-movie-info {
