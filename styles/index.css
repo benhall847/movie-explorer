@@ -94,6 +94,7 @@ body {
     padding-top: 10px;
     padding-right: 10px;
     background-color: dimgray;
+    font-family: 'Titillium Web', sans-serif;
     }
 
 .visible {
@@ -183,6 +184,7 @@ body {
     border: 3px solid #888;
     width: 90%;
     height: 90%;
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .modal-frame{
@@ -270,6 +272,7 @@ body {
     padding-top: 10px;
     height: 80%;
     overflow: scroll;
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .genreCheckBoxes div{

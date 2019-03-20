@@ -211,9 +211,16 @@ function genreClick(event) {
     myResult = true;
     if (event.target.children["0"].checked){
 
-        myResult = false;
-    }
-    event.target.children[0].checked = myResult;
+    function createActorDivs(actorObject) {
+        const actorURL = `https://image.tmdb.org/t/p/w200${actorObject.profile_path}`
+        let castDiv = document.querySelector('[data-cast]');
+        let actorDiv = document.createElement('div');
+        let actorImg = document.createElement('img')
+        actorDiv.appendChild(actorImg);
+        castDiv.appendChild(actorDiv);
+        actorImg.setAttribute('src', actorURL);
+        actorName = document.createTextNode(actorObject.name);
+        actorDiv.appendChild(actorName);
 
 }
 
