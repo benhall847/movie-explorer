@@ -61,6 +61,7 @@ body {
 .cast {
     display: flex;
     flex-direction: row;
+    overflow: none;
     overflow-x: auto;
     
 }
