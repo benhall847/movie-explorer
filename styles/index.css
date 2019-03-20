@@ -57,8 +57,15 @@ body {
     display: block;
 }
 
+.cast-style{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 .cast {
+    max-width: 800px;
     min-height: 120px;
     height: 120px;
     display: flex;
@@ -83,7 +90,12 @@ body {
     width: 40px;
     height: 60px;
     flex: 0 0 auto;
+    padding-bottom: 2px;
 
+}
+
+.cast div img:hover{
+    transform: scale(1.2);
 }
 
 .dropdown-content div:hover{
@@ -156,11 +168,17 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .info-style {
+    width:100%;
     display: flex;
     justify-content: center;
+    align-content: center;
+}
+.movie-info{
+    max-width: 800px;
 }
 
 .blur{
@@ -198,6 +216,7 @@ body {
     overflow: scroll;
 
 }
+
 
 .modal-frame > * {
     flex: 0 0 auto;
@@ -312,6 +331,10 @@ padding-left: 2px;
     .poster-frame{
         width: 33%;
     }
+    .video-frame{
+        width: 85%;
+        padding-bottom: 50%;
+    }
 }
 
 
@@ -319,11 +342,20 @@ padding-left: 2px;
     .poster-frame {
         width: 25%;
     }
+    .video-frame{
+        width: 75%;
+        height: 0;
+        padding-bottom: 40%;
+    }
 }
 
 @media screen and (min-width: 1000px){
     .poster-frame{
         width: 20%;
+    }
+    .video-frame{
+        width: 70%;
+        padding-bottom: 40%;
     }
 }
 
@@ -333,6 +365,12 @@ padding-left: 2px;
     }
     .movie-list{
         justify-content: center;
+    }
+    .video-frame{
+        position: relative;
+        width: 65%;
+        height: 0;
+        padding-bottom: 38%;
     }
 }
 

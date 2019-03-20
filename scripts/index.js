@@ -273,7 +273,7 @@ function posterClick(event) {
 
             data.Ratings.forEach((score)=>{
                 const aDiv = document.createElement('div');
-                aDiv.textContent = score.Source +":"+ score.Value;
+                aDiv.textContent = score.Source +":  "+ score.Value;
                 movieScores.appendChild(aDiv);
             })
 
@@ -349,7 +349,9 @@ function createElements(myArray) {
     function checkPage(){
         const listArea = document.querySelector("[data-list]");
         if(Number(listArea.scrollTop) === 0){
-            if ((Number(listArea.scrollHeight) - Number(listArea.clientHeight)) === 0){
+            
+            // scrolling black magic
+            if (!((Number(listArea.scrollHeight) - Number(listArea.clientHeight)) > 20)){
                 page++;
                 addPage(page);
                 setTimeout(100);
@@ -415,7 +417,6 @@ function start(choice) {
             let trendingList = data.results;
             trendingList = trendingList.filter(movie => movie.title);
             let clickedGenres = getClickedGenres();
-            // console.log(clickedGenres)
             let clickedGenresIntegers = []; // array of integers
             clickedGenres.forEach(genreIDstring => {
                 clickedGenresIntegers.push(parseInt(genreIDstring, 10)) //converts the array of strings to an array of ints
@@ -433,7 +434,6 @@ function start(choice) {
                 trendingList = filteredTrendingList;
             }
             
-            trendingList = trendingList.filter(movie => movie.title) 
             createElements(trendingList);
         });
 };
