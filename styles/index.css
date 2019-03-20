@@ -61,7 +61,6 @@ body {
 .cast {
     display: flex;
     flex-direction: row;
-    overflow: hidden;
     overflow-x: auto;
     
 }
@@ -74,7 +73,7 @@ body {
     padding-left: 20px;
     display: flex;
     flex-direction: column;
-
+    align-items: center;
 }
 
 .cast div img {
@@ -129,7 +128,6 @@ body {
 
 .movie-list{
     height: 100%;
-
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -139,22 +137,19 @@ body {
 
 .poster-frame{
     width: 50%;
-    display: flex;
-    justify-content: center;
-    align-content: center;
+    padding-top: 2px;
+    padding-left: 4px;
 }
 
 
 .poster-image {
-    display: block;
     width: 100%;
-    height: 100%;
-    padding: 2px;
 
 }
 
 .score-style {
     display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
@@ -183,7 +178,6 @@ body {
     background-color: rgba(0,0,0,0.85);
     margin: 1%;
     padding:10px;
-    border: 3px solid #888;
     width: 90%;
     height: 90%;
     font-family: 'Titillium Web', sans-serif;
@@ -301,6 +295,9 @@ padding-left: 2px;
     background-color: rgba(255, 255, 255, .90);
 }
 
+.poster-image:hover{
+    transform: scale(1.05)
+}
 
 @media screen and (min-width: 500px){
     .poster-frame{

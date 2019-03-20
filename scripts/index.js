@@ -176,6 +176,8 @@ function closeModal() {
     const modal = document.querySelector("[data-modal]");
     const iframe = document.querySelector('[data-iframe]');
     const castDivContainer = document.querySelector('[data-cast]');
+    const movieScores = document.querySelector("[data-scores]");
+
     modal.style.display = "none";
     // we delete the iframe '.src' to prevent the next modal from showing
     // the previous video.
@@ -183,6 +185,8 @@ function closeModal() {
     castDivContainer.innerHTML = '';
     iframe.src = ``;
     listArea.style.filter = "";
+    movieScores.innerHTML="";
+
 
 };
 
@@ -267,10 +271,15 @@ function posterClick(event) {
         })
         .then((data) => {
 
-            movieScores.textContent = "IMDB: " + data.Ratings[0].Value + " - " + "Rotten Tomatoes: " + data.Ratings[1].Value
-            + " Metacritic " + " - " + data.Ratings[2].Value;
-            movieInfo.textContent = "Plot: " + data.Plot;
+            data.Ratings.forEach((score)=>{
+                const aDiv = document.createElement('div');
+                aDiv.textContent = score.Source +":"+ score.Value;
+                movieScores.appendChild(aDiv);
+            })
 
+            // movieScores.textContent = "IMDB: " + data.Ratings[0].Value + " - " + "Rotten Tomatoes: " + data.Ratings[1].Value
+            // + " Metacritic " + " - " + data.Ratings[2].Value;
+            movieInfo.textContent = data.Plot;
         })
 
         let movieID = event.target.data.id;
