@@ -227,6 +227,7 @@ function main() {
     }
 
     function createActorDivs(actorObject) {
+        console.log(actorObject)
         const actorURL = `https://image.tmdb.org/t/p/w200${actorObject.profile_path}`
         let castDiv = document.querySelector('[data-cast]');
         let actorDiv = document.createElement('div');
@@ -234,6 +235,12 @@ function main() {
         actorDiv.appendChild(actorImg);
         castDiv.appendChild(actorDiv);
         actorImg.setAttribute('src', actorURL);
+        actorName = document.createTextNode(actorObject.name + '\n');
+        console.log(actorName);
+        actorDiv.appendChild(actorName);
+        
+        
+        
     }
 
     // POSTER CLICK
