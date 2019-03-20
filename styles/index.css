@@ -143,6 +143,7 @@ body {
     padding-top: 2px;
     padding-left: 2px;
     padding-right: 2px;
+
 }
 
 
@@ -304,7 +305,7 @@ padding-left: 2px;
 }
 
 .poster-image:hover{
-    transform: scale(1.05)
+    transform: scale(1.02)
 }
 
 @media screen and (min-width: 500px){
