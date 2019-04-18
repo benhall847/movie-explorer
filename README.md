@@ -1,11 +1,14 @@
 # Movie Explorer
->Movie Explorer is a front-end web app written purely in Javascript, HTML and CSS.
+
+>Movie Explorer is a front-end web app written purely in JavaScript, HTML and CSS.
 
 ![](SpaceGif.gif)
 
 ## About Movie Explorer
+
 Movie Explorer is a website used to search and discover movies. It uses API calls to two movie databases (TheMovieDataBase 
-& OMDB ) to fetch up-to-date movie information. Users can search for movies via search input in addition to filters.  <br />
+& OMDB ) to fetch up-to-date movie information. Users can search for movies via search input in addition to filters.
+<br />
 Movie search results include poster art in addition to a movie trailer, description, ratings, and cast information  <br />
 
 
