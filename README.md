@@ -2,7 +2,7 @@
 
 >Movie Explorer is a front-end web app written purely in JavaScript, HTML and CSS.
 
-![](SpaceGif.gif)
+![](movie.gif)
 
 ## About Movie Explorer
 <br />
