@@ -4,7 +4,7 @@
 ![](SpaceGif.gif)
 
 ## About Movie Explorer
-Movie Explorer is a website used to search and discover movies. It uses API calls to two movie databases (TheMovieDataBase <br /> 
+Movie Explorer is a website used to search and discover movies. It uses API calls to two movie databases (TheMovieDataBase 
 & OMDB ) to fetch up-to-date movie information. Users can search for movies via search input in addition to filters.  <br />
 Movie search results include poster art in addition to a movie trailer, description, ratings, and cast information  <br />
 
